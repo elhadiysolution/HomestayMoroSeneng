@@ -27,7 +27,7 @@
   <meta name="keywords" content="homestay Sabak Bernam, homestay Selangor, sewa rumah kampung, ruang majlis Sabak Bernam, tempat majlis kahwin, venue akad nikah Selangor, majlis tunang, perhimpunan keluarga">
   <meta name="author" content="Teratak Moro Seneng">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://teratakmoroseneng.com/"><!-- GANTI: domain sebenar -->
+  <link rel="canonical" href="https://homestaymoroseneng.pages.dev/">
 
   <!-- ======================== Open Graph ========================= -->
   <meta property="og:type" content="website">
@@ -35,15 +35,17 @@
   <meta property="og:site_name" content="Teratak Moro Seneng">
   <meta property="og:title" content="Teratak Moro Seneng | Homestay Tradisional &amp; Ruang Majlis di Sabak Bernam">
   <meta property="og:description" content="Beradu di rumah Melayu tradisional yang luas, dipagari kehijauan desa yang tenang — atau abadikan kenangan majlis tunang, akad nikah, persandingan dan perhimpunan keluarga anda di sini.">
-  <meta property="og:url" content="https://teratakmoroseneng.com/"><!-- GANTI -->
-  <meta property="og:image" content="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=70"><!-- GANTI -->
-  <meta property="og:image:alt" content="Rumah Melayu tradisional pada waktu senja">
+  <meta property="og:url" content="https://homestaymoroseneng.pages.dev/">
+  <meta property="og:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
+  <meta property="og:image:width" content="719">
+  <meta property="og:image:height" content="814">
+  <meta property="og:image:alt" content="Wajah luar Teratak Moro Seneng, rumah kayu tradisional pada waktu senja">
 
   <!-- ========================== Twitter ========================== -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Teratak Moro Seneng | Homestay Tradisional &amp; Ruang Majlis">
   <meta name="twitter:description" content="Kehidupan Melayu tradisi di Batu 38, Sabak Bernam. Homestay untuk keluarga, ruang majlis untuk perkahwinan dan istiadat.">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=70">
+  <meta name="twitter:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
 
   <!-- ===================== Fon (preconnect) ====================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1968,7 +1970,8 @@ button {
     "@type": "LodgingBusiness",
     "name": "Teratak Moro Seneng",
     "description": "Homestay Melayu tradisional dan ruang majlis di Batu 38, Sabak Bernam, Selangor.",
-    "url": "https://teratakmoroseneng.com/",
+    "url": "https://homestaymoroseneng.pages.dev/",
+    "image": "https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg",
     "telephone": "+60123456789",
     "priceRange": "$$",
     "address": {
