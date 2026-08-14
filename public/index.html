@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
 <!-- ===================================================================
-     TERATAK MORO SENENG — Homestay Tradisional & Ruang Majlis
+     TERATAK MORO SENENG — Traditional Homestay & Event Venue
      Batu 38, Sabak Bernam, Selangor, Malaysia
      -------------------------------------------------------------------
-     Teknologi : HTML5 + CSS tulen + JavaScript tulen (tanpa framework)
-     Binaan    : SATU FAIL — CSS dan JS dimasukkan sekali di dalam. Tiada
-                 fail luaran kecuali Google Fonts dan gambar placeholder.
+     Tech stack : HTML5 + vanilla CSS + vanilla JavaScript (no framework)
+     Build      : SINGLE FILE — CSS and JS are inlined within. No external
+                 files except Google Fonts and placeholder images.
      -------------------------------------------------------------------
-     SEBELUM DILANCARKAN — cari "GANTI:" dalam projek dan kemas kini:
-       1. Nombor perhubungan / telefon — tetapkan WA_NUMBER dalam <script> di bawah
-       2. Gambar placeholder Unsplash -> gambar sebenar di /assets/images/
-       3. Koordinat peta Google
-       4. Pautan media sosial di footer
-       5. Domain canonical + og:url
+     BEFORE LAUNCH — search the project for "REPLACE:" and update:
+       1. Contact / phone number — set WA_NUMBER in the <script> below
+       2. Unsplash placeholder images -> real photos in /assets/images/
+       3. Google Maps coordinates
+       4. Social media links in the footer
+       5. Canonical domain + og:url
      =================================================================== -->
 
   <meta charset="UTF-8">
@@ -22,44 +22,44 @@
   <meta name="theme-color" content="#6B4F2A">
 
   <!-- ============================ SEO ============================ -->
-  <title>Teratak Moro Seneng | Homestay Tradisional &amp; Ruang Majlis di Sabak Bernam</title>
-  <meta name="description" content="Rasai kehidupan Melayu tradisi di Teratak Moro Seneng, Batu 38 Sabak Bernam. Homestay yang luas dan ruang majlis yang indah untuk perkahwinan, pertunangan dan perhimpunan keluarga.">
-  <meta name="keywords" content="homestay Sabak Bernam, homestay Selangor, sewa rumah kampung, ruang majlis Sabak Bernam, tempat majlis kahwin, venue akad nikah Selangor, majlis tunang, perhimpunan keluarga">
+  <title>Teratak Moro Seneng | Traditional Homestay &amp; Event Venue in Sabak Bernam</title>
+  <meta name="description" content="Experience traditional Malay living at Teratak Moro Seneng, Batu 38 Sabak Bernam. A spacious homestay and a beautiful event venue for weddings, engagements and family gatherings.">
+  <meta name="keywords" content="homestay Sabak Bernam, homestay Selangor, kampung house rental, event venue Sabak Bernam, wedding venue, akad nikah venue Selangor, engagement ceremony, family gathering">
   <meta name="author" content="Teratak Moro Seneng">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://homestaymoroseneng.pages.dev/">
 
   <!-- ======================== Open Graph ========================= -->
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ms_MY">
+  <meta property="og:locale" content="en_MY">
   <meta property="og:site_name" content="Teratak Moro Seneng">
-  <meta property="og:title" content="Teratak Moro Seneng | Homestay Tradisional &amp; Ruang Majlis di Sabak Bernam">
-  <meta property="og:description" content="Beradu di rumah Melayu tradisional yang luas, dipagari kehijauan desa yang tenang — atau abadikan kenangan majlis tunang, akad nikah, persandingan dan perhimpunan keluarga anda di sini.">
+  <meta property="og:title" content="Teratak Moro Seneng | Traditional Homestay &amp; Event Venue in Sabak Bernam">
+  <meta property="og:description" content="Sleep in a spacious traditional Malay house, surrounded by tranquil village greenery — or make lasting memories at your engagement, akad nikah, persanding ceremony or family gathering here.">
   <meta property="og:url" content="https://homestaymoroseneng.pages.dev/">
   <meta property="og:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
   <meta property="og:image:width" content="719">
   <meta property="og:image:height" content="814">
-  <meta property="og:image:alt" content="Wajah luar Teratak Moro Seneng, rumah kayu tradisional pada waktu senja">
+  <meta property="og:image:alt" content="Exterior view of Teratak Moro Seneng, a traditional wooden house at dusk">
 
   <!-- ========================== Twitter ========================== -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Teratak Moro Seneng | Homestay Tradisional &amp; Ruang Majlis">
-  <meta name="twitter:description" content="Kehidupan Melayu tradisi di Batu 38, Sabak Bernam. Homestay untuk keluarga, ruang majlis untuk perkahwinan dan istiadat.">
+  <meta name="twitter:title" content="Teratak Moro Seneng | Traditional Homestay &amp; Event Venue">
+  <meta name="twitter:description" content="Traditional Malay living in Batu 38, Sabak Bernam. A homestay for families, an event venue for weddings and ceremonies.">
   <meta name="twitter:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
 
-  <!-- ===================== Fon (preconnect) ====================== -->
+  <!-- ===================== Fonts (preconnect) ====================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
   <!--
-    Fraunces          — fon paparan. Serif hangat; paksi soft/wonk-nya
-                        mengimbau ukiran kayu rumah kampung.
-    Plus Jakarta Sans — fon teks. Direka di Jakarta; sesuai dan mudah dibaca.
+    Fraunces          — display font. A warm serif; its soft/wonk axis
+                        echoes the carved woodwork of a kampung house.
+    Plus Jakarta Sans — body font. Designed in Jakarta; clean and readable.
   -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- ========================== Gaya ============================= -->
-  <!-- ===== Semua gaya dimasukkan di sini (asalnya css/style.css) ===== -->
+  <!-- ========================== Styles ============================= -->
+  <!-- ===== All styles are inlined here (originally css/style.css) ===== -->
   <style>
 /* =====================================================================
    TERATAK MORO SENENG — style.css
@@ -110,7 +110,7 @@
   --beige-pale:  #EFE4D2;
   --gold-bright: #D2A455;
   --green-deep:  #245430;
-  --wa:          #25D366;   /* Warna hijau perbualan             */
+  --wa:          #25D366;   /* WhatsApp conversation green       */
 
   --line:        rgba(107, 79, 42, .16);
   --line-strong: rgba(107, 79, 42, .30);
@@ -683,7 +683,7 @@ button {
   margin-bottom: 3rem;
 }
 
-/* --- Pemilih jenis tempahan: penunjuk emas meluncur antara dua pilihan --- */
+/* --- Booking type picker: gold indicator glides between the two options --- */
 .hero__picker {
   position: relative;
   display: inline-flex;
@@ -1744,9 +1744,9 @@ button {
 
 
 /* =====================================================================
-   22. KARUSEL BERGERAK ("Selayang pandang")
-   Jalur gambar yang menghanyut dari kiri ke kanan tanpa henti.
-   Trek diduakan oleh JS, jadi peralihan -50% -> 0 bersambung mulus.
+   22. MOVING CAROUSEL ("A Glimpse")
+   A strip of images drifting continuously from left to right.
+   The track is duplicated by JS, so the -50% -> 0 transition loops seamlessly.
    ===================================================================== */
 .marquee-sec {
   padding-block: clamp(3rem, 6vw, 5rem);
@@ -1757,7 +1757,7 @@ button {
 
 .marquee {
   overflow: hidden;
-  /* Lembutkan kedua-dua hujung supaya gambar seolah-olah keluar masuk */
+  /* Soften both edges so the images appear to fade in and out */
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
@@ -1769,13 +1769,13 @@ button {
   animation: marquee-ltr 60s linear infinite;
 }
 
-/* Dari -50% ke 0 = bergerak ke arah kanan */
+/* From -50% to 0 = moves to the right */
 @keyframes marquee-ltr {
   from { transform: translate3d(-50%, 0, 0); }
   to   { transform: translate3d(0, 0, 0); }
 }
 
-/* Berhenti bila ditunjuk tetikus atau apabila mana-mana kepingan difokus */
+/* Pauses on mouse hover or when any slide is focused */
 .marquee:hover .marquee__track,
 .marquee:focus-within .marquee__track { animation-play-state: paused; }
 
@@ -1820,7 +1820,7 @@ button {
 
 
 /* =====================================================================
-   23. PANTUN (blok tradisi dalam bahagian seruan tindakan)
+   23. PANTUN (traditional verse block in the call-to-action section)
    ===================================================================== */
 .pantun {
   position: relative;
@@ -1927,7 +1927,7 @@ button {
 
 
 /* =====================================================================
-   25. GERAKAN DIKURANGKAN & CETAKAN
+   25. REDUCED MOTION & PRINT
    ===================================================================== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1942,7 +1942,7 @@ button {
   .leaves { display: none; }
   .hero__media { inset: 0; }
 
-  /* Karusel bertukar menjadi jalur yang boleh diskrol sendiri */
+  /* Carousel becomes a self-scrollable strip */
   .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
   .marquee__track { animation: none; transform: none; }
 }
@@ -1956,20 +1956,20 @@ button {
 
   </style>
 
-  <!-- Menanda bahawa JavaScript tersedia, sebelum paparan pertama. -->
+  <!-- Marks that JavaScript is available, before the first paint. -->
   <script>document.documentElement.classList.add('js');</script>
 
-  <!-- Favicon: siluet tebar layar (ukiran tebar layar rumah Melayu) -->
+  <!-- Favicon: a roof-gable silhouette (carved roof gable of a Malay house) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%236B4F2A'/%3E%3Cpath d='M16 6 4 16h3v10h18V16h3L16 6Zm0 6 6 5v7H10v-7l6-5Z' fill='%23D8C3A5'/%3E%3C/svg%3E">
 
-  <!-- ============== Data berstruktur (rich results) ============== -->
+  <!-- ============== Structured data (rich results) ============== -->
   <script type="application/ld+json">
   
   {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     "name": "Teratak Moro Seneng",
-    "description": "Homestay Melayu tradisional dan ruang majlis di Batu 38, Sabak Bernam, Selangor.",
+    "description": "Traditional Malay homestay and event venue in Batu 38, Sabak Bernam, Selangor.",
     "url": "https://homestaymoroseneng.pages.dev/",
     "image": "https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg",
     "telephone": "+60123456789",
@@ -1982,12 +1982,12 @@ button {
       "addressCountry": "MY"
     },
     "amenityFeature": [
-      { "@type": "LocationFeatureSpecification", "name": "Tempat letak kereta percuma", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Free parking", "value": true },
       { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Penghawa dingin", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Ruang solat", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Dapur", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Ruang BBQ", "value": true }
+      { "@type": "LocationFeatureSpecification", "name": "Air conditioning", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Prayer room", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Kitchen", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "BBQ area", "value": true }
     ]
   }
   
@@ -2211,13 +2211,13 @@ button {
 <body>
 
 <!-- =====================================================================
-     SPRITE SVG — motif ukiran kerawang yang digunakan di seluruh halaman.
-     Ditakrifkan sekali, dirujuk berulang kali.
+     SPRITE SVG — carved fretwork (ukiran kerawang) motif used throughout the page.
+     Defined once, referenced repeatedly.
      ===================================================================== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <!-- Satu jubin berulang: lengkung kerawang + mata tebuk + juntaian.
-         Dua varian warna supaya jalur boleh duduk atas dua latar berbeza. -->
+    <!-- One repeating tile: fretwork curve + pierced motif + hanging valance.
+         Two colour variants so the band can sit on two different backgrounds. -->
     <pattern id="ukiran-tile" width="64" height="46" patternUnits="userSpaceOnUse">
       <path fill="#F8F6F2" fill-rule="evenodd"
             d="M0 0 H64 V9 C55 9 51 14 49 21 C46 30 39 34 32 34 C25 34 18 30 15 21
@@ -2238,25 +2238,25 @@ button {
 <!-- =====================================================================
      PRELOADER
      ===================================================================== -->
-<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Sedang memuatkan Teratak Moro Seneng">
+<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading Teratak Moro Seneng">
   <div class="preloader__mark">
     <img src="/images/logoMS.png" alt="" width="120" height="85">
   </div>
   <p class="preloader__word">Teratak Moro Seneng</p>
 </div>
 
-<!-- Pautan langkau untuk pengguna papan kekunci -->
-<a class="skip-link" href="#main">Langkau ke kandungan utama</a>
+<!-- Skip link for keyboard users -->
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- =====================================================================
-     HEADER / NAVIGASI MELEKAT
-     Menu diringkaskan kepada lima pautan sahaja — Testimoni dan Lokasi
-     kekal boleh dicapai melalui footer dan skrol halaman.
+     STICKY HEADER / NAVIGATION
+     Menu is trimmed to five links only — Testimonials and Location
+     remain reachable via the footer and by scrolling the page.
      ===================================================================== -->
 <header class="nav" id="nav">
   <div class="nav__inner container">
 
-    <a class="brand" href="#utama" aria-label="Teratak Moro Seneng, kembali ke atas">
+    <a class="brand" href="#utama" aria-label="Teratak Moro Seneng, back to top">
       <span class="brand__mark" aria-hidden="true">
         <img src="/images/logoMS.png" alt="" width="68" height="48">
       </span>
@@ -2266,23 +2266,23 @@ button {
       </span>
     </a>
 
-    <!-- Punat menu telefon bimbit -->
+    <!-- Mobile menu button -->
     <button class="nav__toggle" id="navToggle" type="button"
-            aria-expanded="false" aria-controls="navMenu" aria-label="Buka menu">
+            aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
       <span class="nav__bar"></span>
       <span class="nav__bar"></span>
       <span class="nav__bar"></span>
     </button>
 
-    <nav class="nav__menu" id="navMenu" aria-label="Menu utama">
+    <nav class="nav__menu" id="navMenu" aria-label="Main menu">
       <ul class="nav__list">
-        <li><a class="nav__link" href="#tentang">Tentang</a></li>
-        <li><a class="nav__link" href="#penginapan">Penginapan</a></li>
-        <li><a class="nav__link" href="#galeri">Galeri</a></li>
-        <li><a class="nav__link" href="#majlis">Majlis</a></li>
-        <li><a class="nav__link" href="#hubungi">Lokasi</a></li>
+        <li><a class="nav__link" href="#tentang">About</a></li>
+        <li><a class="nav__link" href="#penginapan">Homestay</a></li>
+        <li><a class="nav__link" href="#galeri">Gallery</a></li>
+        <li><a class="nav__link" href="#majlis">Events</a></li>
+        <li><a class="nav__link" href="#hubungi">Location</a></li>
       </ul>
-      <button class="btn btn--gold btn--sm nav__cta" type="button" data-booking-open>Hubungi Kami</button>
+      <button class="btn btn--gold btn--sm nav__cta" type="button" data-booking-open>Contact Us</button>
     </nav>
   </div>
 </header>
@@ -2294,38 +2294,38 @@ button {
      ===================================================================== -->
 <section class="hero" id="utama">
 
-  <!-- Lapisan gambar parallax (digerakkan oleh JS ketika skrol) -->
+  <!-- Parallax image layer (driven by JS on scroll) -->
   <div class="hero__media" id="heroMedia">
-    <!-- GANTI: gambar lebar rumah anda pada waktu senja -->
+    <!-- REPLACE: a wide shot of your house at dusk -->
     <img src="/images/moroseneng.jpg"
-         alt="Rumah Melayu tradisional berbumbung tinggi dikelilingi pokok kelapa pada waktu senja"
+         alt="Traditional Malay house with a tall roof surrounded by coconut trees at dusk"
          fetchpriority="high" decoding="async" width="4096" height="3072">
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
-  <!-- Daun berguguran — dijana oleh JS, dimatikan bila gerakan dikurangkan -->
+  <!-- Falling leaves — generated by JS, disabled when motion is reduced -->
   <div class="leaves" id="leaves" aria-hidden="true"></div>
 
   <div class="hero__content container">
     <p class="eyebrow eyebrow--light hero__eyebrow">Batu 38 &middot; Sabak Bernam &middot; Selangor</p>
 
     <h1 class="hero__title">
-      Rasai Keindahan<br>
-      <em>Kehidupan Melayu Tradisi</em>
+      Experience the Beauty of<br>
+      <em>Traditional Malay Living</em>
     </h1>
 
    <!-- <p class="hero__lead">
-      Beradu di sebuah rumah tradisional yang luas, dipagari kehijauan desa yang tenang —
-      atau abadikan kenangan majlis tunang, akad nikah, persandingan dan perhimpunan
-      keluarga anda di sini.
+      Sleep in a spacious traditional house, surrounded by tranquil village greenery —
+      or make lasting memories at your engagement, akad nikah, persanding ceremony and
+      family gathering here.
     </p> -->
 
     <div class="hero__actions">
-      <div class="hero__picker" role="group" aria-label="Pilih jenis tempahan">
+      <div class="hero__picker" role="group" aria-label="Choose booking type">
         <span class="hero__picker-glide" aria-hidden="true"></span>
-        <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Ruang Majlis">
+        <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Event Hall">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/></svg>
-          Ruang Majlis
+          Event Hall
         </button>
         <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Homestay">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/></svg>
@@ -2333,24 +2333,24 @@ button {
         </button>
       </div>
       <!--<a class="btn btn--text-light" href="#galeri">
-        <span class="btn__play" aria-hidden="true"></span> Tatap Galeri
+        <span class="btn__play" aria-hidden="true"></span> Browse Gallery
       </a>-->
     </div>
 
-    <!-- Tiga perkara yang paling kerap ditanya tetamu -->
+    <!-- The three things guests ask about most -->
     <ul class="hero__facts">
-      <li><strong>6+</strong><span>Bilik Tidur</span></li>
-      <li><strong>25+</strong><span>Tetamu Bermalam</span></li>
-      <li><strong>1 ekar</strong><span>Halaman Terbuka</span></li>
+      <li><strong>6+</strong><span>Bedrooms</span></li>
+      <li><strong>25+</strong><span>Overnight Guests</span></li>
+      <li><strong>1 acre</strong><span>Open Grounds</span></li>
     </ul>
   </div>
 
-  <a class="scroll-cue" href="#tentang" aria-label="Skrol ke bahagian Tentang">
+  <a class="scroll-cue" href="#tentang" aria-label="Scroll to the About section">
     <span class="scroll-cue__line" aria-hidden="true"></span>
-    <span class="scroll-cue__word">Jemput masuk</span>
+    <span class="scroll-cue__word">Come on in</span>
   </a>
 
-  <!-- Siluet ukiran kerawang menutup hero — elemen tanda tangan halaman -->
+  <!-- Carved fretwork silhouette closing the hero — the page's signature element -->
   <div class="ukiran-band ukiran-band--bottom" aria-hidden="true">
     <svg viewBox="0 0 1280 46" preserveAspectRatio="none"><rect width="1280" height="46" fill="url(#ukiran-tile)"/></svg>
   </div>
@@ -2365,82 +2365,82 @@ button {
     <div class="about__media" data-reveal>
       <figure class="about__photo about__photo--tall">
         <img src="/images/moroseneng1.jpeg"
-             alt="Cahaya matahari menimpa lantai papan di ruang tamu utama"
+             alt="Sunlight falling across the wooden floorboards of the main living room"
              loading="lazy" decoding="async" width="700" height="900">
       </figure>
     </div>
 
     <div class="about__body" data-reveal data-reveal-delay="1">
-      <p class="eyebrow">Selamat Datang</p>
-      <h2 class="h2">Tempat Berkumpul, Tempat Bercerita,<br><em> Tempat Mengukir Kenangan.</em></h2>
+      <p class="eyebrow">Welcome</p>
+      <h2 class="h2">A Place to Gather, A Place to Tell Stories,<br><em> A Place to Make Memories.</em></h2>
 
       <ul class="ticks">
-        <li>Seni bina kayu tradisional yang terpelihara rapi</li>
-        <li>Suasana desa yang damai, tidak jauh dari jalan pesisir</li>
-        <li>Halaman luas untuk khemah, katering dan permainan</li>
+        <li>Traditional wooden architecture, lovingly preserved</li>
+        <li>A peaceful village setting, not far from the coastal road</li>
+        <li>Spacious grounds for tents, catering and games</li>
       </ul>
 
-      <a class="link-arrow" href="#penginapan">Tinjau isi rumahnya <span aria-hidden="true">&rarr;</span></a>
+      <a class="link-arrow" href="#penginapan">Explore More <span aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </section>
 
 <!-- =====================================================================
-     PERKHIDMATAN — dua cara menggunakan teratak ini
+     SERVICES — two ways to use this teratak
      ===================================================================== -->
 <section class="section section--alt services">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Pengalaman Yang Kami Tawarkan</p>
-      <h2 class="h2">Satu Tempat, Pelbagai Kenangan Bermakna</h2>
+      <p class="eyebrow">The Experience We Offer</p>
+      <h2 class="h2">One Place, Many Meaningful Memories</h2>
       <div class="rule" aria-hidden="true"><span></span><svg viewBox="0 0 48 24"><path d="M24 2c6 4 9 8 9 12 0 5-4 8-9 8s-9-3-9-8c0-4 3-8 9-12Zm0 6c-3 3-4.5 5.4-4.5 7.6 0 2.6 2 4.4 4.5 4.4s4.5-1.8 4.5-4.4C28.5 13.4 27 11 24 8Z"/><path d="M2 12h9M37 12h9"/></svg><span></span></div>
     </header>
 
     <div class="services__grid">
 
-      <!-- Kad 1 — Penginapan -->
+      <!-- Card 1 — Homestay -->
       <article class="scard" id="penginapan" data-reveal>
         <div class="scard__media">
           <img src="/images/moroseneng5.jpeg"
-               alt="Wajah luar rumah homestay dengan tangga kayu dan beranda yang teduh"
+               alt="Exterior of the homestay with wooden steps and a shaded veranda"
                loading="lazy" decoding="async" width="1000" height="667">
-          <span class="scard__tag">Seluruh rumah</span>
+          <span class="scard__tag">Whole house</span>
         </div>
         <div class="scard__body">
-          <h3 class="scard__title"></span>Penginapan Tradisional</h3>
-          <p>Nikmati ketenangan rumah kayu tradisional yang luas dan selesa. 
-            Seluruh rumah untuk anda, sesuai untuk keluarga dan percutian yang lebih bermakna.</p>
+          <h3 class="scard__title"></span>Traditional Homestay</h3>
+          <p>Enjoy the tranquility of a spacious, comfortable traditional wooden house.
+            The whole house to yourselves, perfect for families and more meaningful getaways.</p>
           <ul class="feature-list">
-            <li>Rumah kayu tradisional eksklusif</li>
-            <li>6 bilik yang selesa</li>
-            <li>Ruang keluarga yang luas</li>
-            <li>Dapur lengkap</li>
-            <li>Tempat letak kereta luas</li>
+            <li>Exclusive traditional wooden house</li>
+            <li>6 comfortable bedrooms</li>
+            <li>Spacious living area</li>
+            <li>Full kitchen</li>
+            <li>Ample parking</li>
           </ul>
-          <button class="btn btn--gold btn--block" type="button" data-booking-open data-booking-type="Homestay">Tempah Penginapan</button>
+          <button class="btn btn--gold btn--block" type="button" data-booking-open data-booking-type="Homestay">Book the Homestay</button>
         </div>
       </article>
 
-      <!-- Kad 2 — Ruang Majlis -->
+      <!-- Card 2 — Event Hall -->
       <article class="scard" data-reveal data-reveal-delay="1">
         <div class="scard__media">
           <img src="/images/moroseneng3.JPG"
-               alt="Persiapan majlis di luar rumah dengan kain labuh, bunga dan deretan kerusi"
+               alt="Outdoor event setup with draped fabric, flowers and rows of chairs"
                loading="lazy" decoding="async" width="1000" height="667">
-          <span class="scard__tag">Sehingga 300 tetamu</span>
+          <span class="scard__tag">Up to 300 guests</span>
         </div>
         <div class="scard__body">
-          <h3 class="scard__title">Ruang Majlis Istimewa</h3>
-          <p>Raikan hari bahagia anda dalam suasana kampung yang indah dengan ruang luas untuk majlis, keluarga dan tetamu tersayang.</p>
+          <h3 class="scard__title">A Special Event Hall</h3>
+          <p>Celebrate your special day in a beautiful kampung setting, with plenty of space for your event, family and beloved guests.</p>
           <ul class="feature-list">
-            <li>Majlis/Akad Tunang</li>
-            <li>Majlis Persandingan</li>
-            <li>Hari Keluarga</li>
-            <li>Majlis Korporat</li>
+            <li>Engagement / Akad Nikah Ceremony</li>
+            <li>Persanding Ceremony</li>
+            <li>Family Day</li>
+            <li>Corporate Events</li>
 
-            <li>Majlis Terbuka</li>
+            <li>Open House</li>
           </ul>
-          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Ruang Majlis">Tempah Ruang Majlis</button>
+          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Event Hall">Book the Event Hall</button>
         </div>
       </article>
 
@@ -2449,13 +2449,13 @@ button {
 </section>
 
 <!-- =====================================================================
-     MENGAPA MEMILIH KAMI
+     WHY CHOOSE US
      ===================================================================== -->
 <section class="section why">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Warisan Tradisional, Kenangan Seumur Hidup.</p>
-      <h2 class="h2">Rasai Keindahan Kehidupan Kampung Yang Sebenar</h2>
+      <p class="eyebrow">Traditional Heritage, Memories for a Lifetime.</p>
+      <h2 class="h2">Experience the Beauty of Real Kampung Living</h2>
     </header>
 
     <ul class="why__grid">
@@ -2463,227 +2463,227 @@ button {
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 3 2 11h3v10h14V11h3L12 3Z"/></svg>
         </span>
-        <h3>Pengalaman Menginap di Rumah Kayu Tradisional Yang Unik</h3>
-        <p>Dibina dengan konsep rumah Melayu tradisional yang penuh nilai warisan, memberikan pengalaman nostalgia zaman dahulu tanpa mengabaikan keselesaan masa kini.</p>
+        <h3>A Unique Stay in a Traditional Wooden House</h3>
+        <p>Built around the concept of a traditional Malay house full of heritage value, offering a nostalgic taste of the past without compromising on modern comfort.</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="1">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M3 4h18v16H3z"/><path d="M3 10h18M9 20V10"/></svg>
         </span>
-        <h3>6 Bilik Yang Luas & Selesa</h3>
-        <p>Mempunyai 6 bilik tidur yang mampu menempatkan keluarga besar, rombongan pengantin, rakan-rakan atau kumpulan syarikat dengan selesa.</p>
+        <h3>6 Spacious & Comfortable Bedrooms</h3>
+        <p>6 bedrooms that comfortably accommodate a large family, a wedding entourage, friends or a corporate group.</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="2">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
         </span>
-        <h3>Ruang Acara Yang Luas</h3>
-        <p>Direka khas dengan kawasan bawah rumah dan laman hadapan yang sangat luas untuk pelbagai majlis.</p>
+        <h3>Generous Event Space</h3>
+        <p>Specially designed with an under-house area and a very spacious front yard for all kinds of events.</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="3">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-7-10a7 7 0 0 1 14 0c0 5.4-7 10-7 10Z"/><circle cx="12" cy="11" r="2.6"/></svg>
         </span>
-        <h3>Dikelilingi Keindahan Alam</h3>
-        <p>Nikmati udara segar, kehijauan alam serta suasana kampung yang tenang. Tempat terbaik untuk berehat, menenangkan fikiran dan meluangkan masa berkualiti bersama insan tersayang.</p>
+        <h3>Surrounded by Natural Beauty</h3>
+        <p>Enjoy fresh air, lush greenery and a peaceful village atmosphere. The perfect place to unwind, clear your mind and spend quality time with loved ones.</p>
       </li>
-      
+
     </ul>
   </div>
 </section>
 
 <!-- =====================================================================
-     KELENGKAPAN PENGINAPAN (jalur kayu gelap)
+     ACCOMMODATION FEATURES (dark wood band)
      ===================================================================== -->
 <section class="section section--wood accommodation">
   <div class="container">
     <div class="acc__head" data-reveal>
       <div>
         <p class="eyebrow eyebrow--light">Homestay Moro Seneng</p>
-        <h2 class="h2 h2--light">Segalanya sudah tersedia,<br>menanti kedatangan anda</h2>
+        <h2 class="h2 h2--light">Everything is ready,<br>waiting for your arrival</h2>
       </div>
       <p class="acc__note">
-        Nikmati pengalaman menginap dalam rumah kayu tradisional yang luas, selesa dan dikelilingi suasana alam yang mendamaikan. 
-        Sesuai untuk keluarga, majlis perkahwinan, pertunangan, reunion dan pelbagai acara istimewa.
+        Enjoy a stay in a spacious, comfortable traditional wooden house surrounded by a peaceful natural setting.
+        Perfect for families, weddings, engagements, reunions and all kinds of special occasions.
       </p>
     </div>
 
-    <!-- Angka bergerak sekali sahaja apabila masuk pandangan -->
+    <!-- Numbers count up once, only when they enter view -->
     <ul class="acc__stats" data-reveal>
-      <li><strong data-count="6" data-suffix="+">0</strong><span>Bilik Tidur</span></li>
-      <li><strong data-count="25" data-suffix="+">0</strong><span>Tetamu Bermalam</span></li>
-      <li><strong data-count="200" data-suffix="+">0</strong><span>Muatan Majlis</span></li>
-      <li><strong data-count="30" data-suffix="+">0</strong><span>Petak Letak Kereta</span></li>
+      <li><strong data-count="6" data-suffix="+">0</strong><span>Bedrooms</span></li>
+      <li><strong data-count="25" data-suffix="+">0</strong><span>Overnight Guests</span></li>
+      <li><strong data-count="200" data-suffix="+">0</strong><span>Event Capacity</span></li>
+      <li><strong data-count="30" data-suffix="+">0</strong><span>Parking Bays</span></li>
     </ul>
   </div>
 </section>
 
 <!-- =====================================================================
-     GALERI — masonry + tapisan + lightbox
-     ===================================================================== 
+     GALLERY — masonry + filters + lightbox
+     =====================================================================
 <section class="section gallery" id="galeri">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Galeri</p>
-      <h2 class="h2">Tinjau dahulu sebelum tiba</h2>
+      <p class="eyebrow">Gallery</p>
+      <h2 class="h2">Take a look before you arrive</h2>
       <div class="rule" aria-hidden="true"><span></span><svg viewBox="0 0 48 24"><path d="M24 2c6 4 9 8 9 12 0 5-4 8-9 8s-9-3-9-8c0-4 3-8 9-12Zm0 6c-3 3-4.5 5.4-4.5 7.6 0 2.6 2 4.4 4.5 4.4s4.5-1.8 4.5-4.4C28.5 13.4 27 11 24 8Z"/><path d="M2 12h9M37 12h9"/></svg><span></span></div>
     </header>-->
 
-    <!-- Tapisan kategori 
-    <div class="filters" role="group" aria-label="Tapis galeri mengikut kategori" data-reveal>
-      <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Semua</button>
-      <button class="filter" type="button" data-filter="exterior" aria-pressed="false">Luar Rumah</button>
-      <button class="filter" type="button" data-filter="hall" aria-pressed="false">Ruang Tamu</button>
-      <button class="filter" type="button" data-filter="bedroom" aria-pressed="false">Bilik Tidur</button>
-      <button class="filter" type="button" data-filter="kitchen" aria-pressed="false">Dapur</button>
-      <button class="filter" type="button" data-filter="event" aria-pressed="false">Hiasan Majlis</button>
-      <button class="filter" type="button" data-filter="garden" aria-pressed="false">Taman</button>
-      <button class="filter" type="button" data-filter="compound" aria-pressed="false">Halaman</button>
-      <button class="filter" type="button" data-filter="night" aria-pressed="false">Waktu Malam</button>
+    <!-- Category filters
+    <div class="filters" role="group" aria-label="Filter gallery by category" data-reveal>
+      <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" type="button" data-filter="exterior" aria-pressed="false">Exterior</button>
+      <button class="filter" type="button" data-filter="hall" aria-pressed="false">Living Room</button>
+      <button class="filter" type="button" data-filter="bedroom" aria-pressed="false">Bedroom</button>
+      <button class="filter" type="button" data-filter="kitchen" aria-pressed="false">Kitchen</button>
+      <button class="filter" type="button" data-filter="event" aria-pressed="false">Event Decor</button>
+      <button class="filter" type="button" data-filter="garden" aria-pressed="false">Garden</button>
+      <button class="filter" type="button" data-filter="compound" aria-pressed="false">Grounds</button>
+      <button class="filter" type="button" data-filter="night" aria-pressed="false">Night View</button>
     </div>-->
 
-    <!-- Masonry menggunakan CSS columns. Setiap punat membuka lightbox. 
+    <!-- Masonry layout using CSS columns. Each button opens the lightbox.
     <div class="masonry" id="masonry">
 
-      <button class="gitem" data-reveal type="button" data-cat="exterior" data-caption="Wajah rumah dari pintu pagar">
+      <button class="gitem" data-reveal type="button" data-cat="exterior" data-caption="The house viewed from the gate">
         <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=70"
-             alt="Luar rumah Melayu tradisional dengan bumbung curam dan dinding papan" loading="lazy" decoding="async" width="800" height="1067">
-        <span class="gitem__cap">Luar Rumah</span>
+             alt="Exterior of a traditional Malay house with a steep roof and wooden plank walls" loading="lazy" decoding="async" width="800" height="1067">
+        <span class="gitem__cap">Exterior</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="hall" data-caption="Cahaya pagi di ruang tamu utama">
+      <button class="gitem" data-reveal type="button" data-cat="hall" data-caption="Morning light in the main living room">
         <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=70"
-             alt="Ruang tamu luas berlantaikan papan dengan tempat duduk rendah" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Ruang Tamu</span>
+             alt="Spacious living room with wooden flooring and low seating" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Living Room</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="bedroom" data-caption="Salah satu daripada lima bilik tidur">
+      <button class="gitem" data-reveal type="button" data-cat="bedroom" data-caption="One of the five bedrooms">
         <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=70"
-             alt="Bilik tidur sederhana dengan katil kayu dan cadar putih" loading="lazy" decoding="async" width="800" height="1000">
-        <span class="gitem__cap">Bilik Tidur</span>
+             alt="Simple bedroom with a wooden bed and white linens" loading="lazy" decoding="async" width="800" height="1000">
+        <span class="gitem__cap">Bedroom</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="event" data-caption="Persiapan akad nikah di beranda">
+      <button class="gitem" data-reveal type="button" data-cat="event" data-caption="Akad nikah setup on the veranda">
         <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=70"
-             alt="Hiasan majlis dengan bunga dan kain labuh" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Hiasan Majlis</span>
+             alt="Event decor with flowers and draped fabric" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Event Decor</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="kitchen" data-caption="Dapur lengkap — masaklah seperti di rumah sendiri">
+      <button class="gitem" data-reveal type="button" data-cat="kitchen" data-caption="A full kitchen — cook just like at home">
         <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=800&q=70"
-             alt="Dapur dengan ruang memasak, dapur gas dan kabinet" loading="lazy" decoding="async" width="800" height="1000">
-        <span class="gitem__cap">Dapur</span>
+             alt="Kitchen with cooking area, gas stove and cabinets" loading="lazy" decoding="async" width="800" height="1000">
+        <span class="gitem__cap">Kitchen</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="garden" data-caption="Denai taman di sisi rumah">
+      <button class="gitem" data-reveal type="button" data-cat="garden" data-caption="A garden path beside the house">
         <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=800&q=70"
-             alt="Taman menghijau dengan tumbuhan tropika" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Taman</span>
+             alt="Lush green garden with tropical plants" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Garden</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="compound" data-caption="Halaman terbuka, sedia untuk didirikan khemah">
+      <button class="gitem" data-reveal type="button" data-cat="compound" data-caption="Open grounds, ready for a tent to be set up">
         <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=70"
-             alt="Halaman berumput yang luas dengan pokok di tepinya" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Halaman Terbuka</span>
+             alt="Wide grassy grounds lined with trees" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Open Grounds</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="night" data-caption="Lampu menyala selepas maghrib">
+      <button class="gitem" data-reveal type="button" data-cat="night" data-caption="Lights on after dusk">
         <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=70"
-             alt="Cahaya lampu kekuningan menerangi halaman pada waktu senja" loading="lazy" decoding="async" width="800" height="1000">
-        <span class="gitem__cap">Waktu Malam</span>
+             alt="Warm lamplight illuminating the grounds at dusk" loading="lazy" decoding="async" width="800" height="1000">
+        <span class="gitem__cap">Night View</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="exterior" data-caption="Tangga kayu naik ke beranda">
+      <button class="gitem" data-reveal type="button" data-cat="exterior" data-caption="Wooden steps leading up to the veranda">
         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=70"
-             alt="Tangga kayu menuju ke beranda yang teduh" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Beranda &amp; Tangga</span>
+             alt="Wooden steps leading to a shaded veranda" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Veranda &amp; Steps</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="event" data-caption="Tempat duduk tetamu di bawah rendang pohon">
+      <button class="gitem" data-reveal type="button" data-cat="event" data-caption="Guest seating beneath the shade of a tree">
         <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=70"
-             alt="Meja majlis dihias bunga di bawah pokok" loading="lazy" decoding="async" width="800" height="1200">
-        <span class="gitem__cap">Susunan Majlis</span>
+             alt="Event table decorated with flowers under a tree" loading="lazy" decoding="async" width="800" height="1200">
+        <span class="gitem__cap">Event Setup</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="hall" data-caption="Semua orang muat dalam satu ruang">
+      <button class="gitem" data-reveal type="button" data-cat="hall" data-caption="Everyone fits in one space">
         <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=70"
-             alt="Ruang dalam rumah yang lapang dengan cahaya semula jadi" loading="lazy" decoding="async" width="800" height="533">
-        <span class="gitem__cap">Ruang Keluarga</span>
+             alt="Bright, open room inside the house with natural light" loading="lazy" decoding="async" width="800" height="533">
+        <span class="gitem__cap">Family Room</span>
       </button>
 
-      <button class="gitem" data-reveal type="button" data-cat="garden" data-caption="Pokok kelapa di sepanjang sempadan">
+      <button class="gitem" data-reveal type="button" data-cat="garden" data-caption="Coconut trees lining the boundary">
         <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=70"
-             alt="Pokok-pokok tinggi dan kehijauan mengelilingi kawasan rumah" loading="lazy" decoding="async" width="800" height="1200">
-        <span class="gitem__cap">Kehijauan Kampung</span>
+             alt="Tall trees and greenery surrounding the house grounds" loading="lazy" decoding="async" width="800" height="1200">
+        <span class="gitem__cap">Kampung Greenery</span>
       </button>
 
     </div>
 
-    <p class="gallery__empty" id="galleryEmpty" hidden>Tiada gambar dalam kategori ini buat masa ini — cuba kategori lain.</p>
+    <p class="gallery__empty" id="galleryEmpty" hidden>No images in this category right now — try another category.</p>
   </div>
 </section> -->
 
 <!-- =====================================================================
-     KARUSEL BERGERAK — "Selayang Pandang"
-     Jalur gambar yang bergerak perlahan dari kiri ke kanan tanpa henti.
-     Berhenti apabila ditunjuk tetikus atau difokus papan kekunci.
-     Klik mana-mana gambar untuk membuka lightbox.
+     MOVING CAROUSEL — "A Glimpse"
+     A strip of images drifting slowly and continuously from left to right.
+     Pauses on mouse hover or when focused via keyboard.
+     Click any image to open the lightbox.
      ===================================================================== -->
 <section class="marquee-sec" aria-labelledby="marqueeHead" id="galeri">
   <div class="container marquee-head" data-reveal>
-    <p class="eyebrow">galeri Pelanggan</p>
-    <h2 class="h2 marquee-title" id="marqueeHead">Suasana sehari di teratak</h2>
+    <p class="eyebrow">Guest Gallery</p>
+    <h2 class="h2 marquee-title" id="marqueeHead">A Day at the Teratak</h2>
   </div>
 
   <div class="marquee" id="marquee">
     <div class="marquee__track" id="marqueeTrack">
 
-      <button class="cslide" type="button" data-caption="Wajah rumah menjelang senja">
+      <button class="cslide" type="button" data-caption="The house at dusk">
         <img src="/images/moroseneng11.jpg"
-             alt="Rumah tradisional menjelang senja" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">aktiviti BBQ</span>
+             alt="Traditional house at dusk" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">BBQ Time</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Beranda tempat berbual petang">
+      <button class="cslide" type="button" data-caption="The veranda, a spot for evening chats">
         <img src="/images/moroseneng7.jpg"
-             alt="Beranda kayu yang teduh" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Majlis Marhaban</span>
+             alt="Shaded wooden veranda" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Marhaban Ceremony</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Ruang tamu pada waktu pagi">
+      <button class="cslide" type="button" data-caption="The living room in the morning">
         <img src="/images/moroseneng9.jpg"
-             alt="Ruang tamu berlantaikan papan" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Tangga</span>
+             alt="Living room with wooden flooring" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Steps</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Halaman terbuka menanti khemah">
+      <button class="cslide" type="button" data-caption="Open grounds waiting for a tent">
         <img src="/images/moroseneng6.jpg"
-             alt="Halaman berumput yang lapang" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Pengambaran Hari Keluarga</span>
+             alt="Wide open grassy grounds" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Family Day Photos</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Hiasan majlis di bawah rendang pohon">
+      <button class="cslide" type="button" data-caption="Event decor beneath the shade of a tree">
         <img src="/images/moroseneng17.jpg"
-             alt="Hiasan majlis dengan bunga" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Ruang Hadapan</span>
+             alt="Event decor with flowers" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Front Area</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Kehijauan yang memagari halaman">
+      <button class="cslide" type="button" data-caption="Greenery bordering the grounds">
         <img src="/images/moroseneng14.jpg"
-             alt="Pokok-pokok tinggi mengelilingi kawasan rumah" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Majlis Pertunangan</span>
+             alt="Tall trees surrounding the house grounds" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Engagement Ceremony</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Bilik tidur yang tenang">
+      <button class="cslide" type="button" data-caption="A peaceful bedroom">
         <img src="/images/moroseneng19.jpg"
-             alt="Bilik tidur dengan katil kayu" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Ruang Aktiviti Keluarga</span>
+             alt="Bedroom with a wooden bed" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Family Activity Area</span>
       </button>
 
-      <button class="cslide" type="button" data-caption="Lampu menyala selepas maghrib">
+      <button class="cslide" type="button" data-caption="Lights on after dusk">
         <img src="/images/moroseneng12.jpg"
-             alt="Cahaya lampu kekuningan pada waktu malam" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Waktu malam</span>
+             alt="Warm lamplight at night" loading="lazy" decoding="async" width="600" height="800">
+        <span class="cslide__cap">Night View</span>
       </button>
 
     </div>
@@ -2691,7 +2691,7 @@ button {
 </section>
 
 <!-- =====================================================================
-     RUANG MAJLIS — sepanduk besar
+     EVENT HALL — large banner
      ===================================================================== -->
 <section class="event" id="majlis">
   <div class="event__media" aria-hidden="true">
@@ -2701,69 +2701,69 @@ button {
   <div class="event__scrim" aria-hidden="true"></div>
 
   <div class="container event__content" data-reveal>
-    <p class="eyebrow eyebrow--light">Majlis &amp; Program</p>
-    <h2 class="h2 h2--light">Hari bahagia anda,<br><em>berlatarkan teratak ini</em></h2>
+    <p class="eyebrow eyebrow--light">Events &amp; Programmes</p>
+    <h2 class="h2 h2--light">Your happiest day,<br><em>set against this teratak</em></h2>
     <p class="event__lead">
-      Halaman terbuka terus menghadap muka rumah — sebuah pentas semula jadi untuk pelamin
-      bersanding, deretan khemah, atau seratus kerusi di bawah rendang pohon. 
+      Open grounds facing straight onto the house — a natural stage for a bridal dais,
+      rows of tents, or a hundred chairs beneath the shade of a tree.
     </p>
 
     <ul class="pills">
       <li>Akad Nikah</li>
-      <li>Majlis Persandingan</li>
-      <li>Majlis Tunang</li>
-      <li>Rumah Terbuka Hari Raya</li>
-      <li>Hari Keluarga</li>
-      <li>Program Korporat</li>
-      <li>Seminar Kecil</li>
+      <li>Persanding Ceremony</li>
+      <li>Engagement Ceremony</li>
+      <li>Hari Raya Open House</li>
+      <li>Family Day</li>
+      <li>Corporate Programme</li>
+      <li>Small Seminar</li>
     </ul>
 
     <div class="event__actions">
-      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Ruang Majlis">Semak tarikh majlis</button>
+      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Event Hall">Check event dates</button>
     </div>
   </div>
 </section>
 
 <!-- =====================================================================
-     TESTIMONI
+     TESTIMONIALS
      ===================================================================== -->
 <section class="section section--alt testimonials" id="testimoni">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Kata mereka</p>
-      <h2 class="h2">Apa yang tetamu ceritakan selepas pulang</h2>
+      <p class="eyebrow">What They Say</p>
+      <h2 class="h2">What guests share after they leave</h2>
     </header>
 
     <div class="tgrid">
       <figure class="tcard" data-reveal>
-        <div class="tcard__stars" role="img" aria-label="Penilaian 5 daripada 5">★★★★★</div>
-        <blockquote><p>Rumah tradisional yang cantik. Seluruh keluarga kami seronok bermalam
-          di sini — anak-anak bermain di luar sepanjang hujung minggu, tiada seorang pun
-          menyentuh telefon.</p></blockquote>
+        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
+        <blockquote><p>A beautiful traditional house. Our whole family loved staying
+          here — the kids played outside all weekend, and not one of them
+          touched their phone.</p></blockquote>
         <figcaption>
           <span class="tcard__avatar" aria-hidden="true">NH</span>
-          <span><strong>Puan Nurhaliza Abdullah</strong><small>Penginapan keluarga &middot; Shah Alam</small></span>
+          <span><strong>Puan Nurhaliza Abdullah</strong><small>Family stay &middot; Shah Alam</small></span>
         </figcaption>
       </figure>
 
       <figure class="tcard" data-reveal data-reveal-delay="1">
-        <div class="tcard__stars" role="img" aria-label="Penilaian 5 daripada 5">★★★★★</div>
-        <blockquote><p>Tempat yang sempurna untuk majlis pertunangan kami. Halamannya muat
-          menampung semua tetamu, dan gambar di hadapan rumah menjadi terlalu cantik.</p></blockquote>
+        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
+        <blockquote><p>The perfect place for our engagement ceremony. The grounds easily
+          fit all our guests, and the photos in front of the house turned out beautifully.</p></blockquote>
         <figcaption>
           <span class="tcard__avatar" aria-hidden="true">AF</span>
-          <span><strong>Encik Ahmad Faizal</strong><small>Majlis Tunang &middot; Klang</small></span>
+          <span><strong>Encik Ahmad Faizal</strong><small>Engagement Ceremony &middot; Klang</small></span>
         </figcaption>
       </figure>
 
       <figure class="tcard" data-reveal data-reveal-delay="2">
-        <div class="tcard__stars" role="img" aria-label="Penilaian 5 daripada 5">★★★★★</div>
-        <blockquote><p>Damai, luas dan penuh kenangan. Kami membawa tiga puluh orang untuk
-          hari keluarga, dan tuan rumah membantu menguruskan segalanya — hinggalah ke urusan
-          tempat letak kereta.</p></blockquote>
+        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
+        <blockquote><p>Peaceful, spacious and full of memories. We brought thirty people
+          for a family day, and the host helped take care of everything — right down to
+          the parking arrangements.</p></blockquote>
         <figcaption>
           <span class="tcard__avatar" aria-hidden="true">SR</span>
-          <span><strong>Cik Siti Rohani</strong><small>Perhimpunan keluarga &middot; Sungai Besar</small></span>
+          <span><strong>Cik Siti Rohani</strong><small>Family gathering &middot; Sungai Besar</small></span>
         </figcaption>
       </figure>
     </div>
@@ -2771,20 +2771,20 @@ button {
 </section>
 
 <!-- =====================================================================
-     LOKASI
+     LOCATION
      ===================================================================== -->
 <section class="section location" id="lokasi">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Lokasi kami</p>
-      <h2 class="h2">Dari Teratak, Jelajah Sekitar</h2>
+      <p class="eyebrow">Our Location</p>
+      <h2 class="h2">From the Teratak, Explore the Area</h2>
     </header>
 
     <div class="location__grid">
       <div class="location__map" data-reveal>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.268353868002!2d100.9482346756757!3d3.7516374491522644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cb5f002a7ae805%3A0x4025ed63b77f5f66!2sTeratak%20Moro%20Seneng!5e0!3m2!1sen!2smy!4v1785944602305!5m2!1sen!2smy"
-          title="Peta menunjukkan kedudukan Teratak Moro Seneng di Sabak Bernam, Selangor"
+          title="Map showing the location of Teratak Moro Seneng in Sabak Bernam, Selangor"
           loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen></iframe>
 
@@ -2798,7 +2798,7 @@ button {
       </div>
 
       <div class="location__nearby">
-        <p class="location__nearby-label" data-reveal>Tarikan Berdekatan</p>
+        <p class="location__nearby-label" data-reveal>Nearby Attractions</p>
 
         <div class="nearby__grid">
           <div class="nearby__card" data-reveal>
@@ -2806,7 +2806,7 @@ button {
               <svg viewBox="0 0 24 24"><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg>
             </span>
             <h4>Pantai Bagan Nakhoda Omar</h4>
-            <p>Dikenali sebagai "Pantai Pokok Berjanggut" — akar bakau unik yang tersergam di persisiran pantai.</p>
+            <p>Known as the "Bearded Tree Beach" — striking, unique mangrove roots lining the shoreline.</p>
           </div>
 
           <div class="nearby__card" data-reveal data-reveal-delay="1">
@@ -2814,7 +2814,7 @@ button {
               <svg viewBox="0 0 24 24"><path d="M3 10h18M4 10v10M8 10v10M12 10v10M16 10v10M20 10v10M2 21h20M3 10l9-6 9 6"/></svg>
             </span>
             <h4>Muzium Sabak Bernam</h4>
-            <p>Sejarah pertanian dan penangkapan ikan masyarakat tempatan, terletak di Jalan Pasar.</p>
+            <p>The local community's farming and fishing history, located on Jalan Pasar.</p>
           </div>
 
           <div class="nearby__card" data-reveal data-reveal-delay="2">
@@ -2822,15 +2822,15 @@ button {
               <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/></svg>
             </span>
             <h4>Waterfront Sabak Bernam</h4>
-            <p>Taman rekreasi tepi sungai dengan padang permainan kanak-kanak — sesuai untuk keluarga.</p>
+            <p>A riverside recreational park with a children's playground — perfect for families.</p>
           </div>
 
           <div class="nearby__card" data-reveal data-reveal-delay="3">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>
             </span>
-            <h4>Kelip-Kelip Kuala Selangor</h4>
-            <p>Lawatan sampan waktu malam melihat ribuan kelip-kelip di sepanjang Sungai Selangor.</p>
+            <h4>Kuala Selangor Fireflies</h4>
+            <p>A night-time boat tour to see thousands of fireflies along the Selangor River.</p>
           </div>
         </div>
       </div>
@@ -2839,13 +2839,13 @@ button {
 </section>
 
 <!-- =====================================================================
-     SOALAN LAZIM — akordion
-     ===================================================================== 
+     FAQ — accordion
+     =====================================================================
 <section class="section section--alt faq">
   <div class="container container--narrow">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Sebelum menempah</p>
-      <h2 class="h2">Soalan yang kerap ditanya</h2>
+      <p class="eyebrow">Before You Book</p>
+      <h2 class="h2">Frequently Asked Questions</h2>
     </header>
 
     <div class="acc" id="faq" data-reveal>
@@ -2853,83 +2853,81 @@ button {
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq1" id="faq1-btn">
-            <span>Berapa ramai tetamu boleh bermalam?</span>
+            <span>How many guests can stay overnight?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq1" role="region" aria-labelledby="faq1-btn">
-          <p>Rumah ini selesa menampung 20 orang atau lebih dalam lima bilik atau lebih,
-             dengan tilam tambahan boleh disediakan di ruang tamu. Beritahu kami jumlah tetamu
-             melalui mesej terus dan kami akan mengesahkan susun aturnya.</p>
+          <p>The house comfortably accommodates 20 or more people across five or more
+             bedrooms, with extra mattresses available in the living room. Let us know your
+             guest count via message and we'll confirm the arrangement.</p>
         </div>
       </div>
 
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq2" id="faq2-btn">
-            <span>Bolehkah kami mengadakan majlis perkahwinan atau akad nikah?</span>
+            <span>Can we hold a wedding or akad nikah here?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq2" role="region" aria-labelledby="faq2-btn">
-          <p>Boleh. Halaman ini kerap menjadi tempat akad nikah, majlis tunang, persandingan
-             dan rumah terbuka untuk kira-kira 300 tetamu. Menempah ruang majlis bersama
-             penginapan semalam menjadikan pagi hari majlis jauh lebih mudah bagi pihak keluarga.</p>
+          <p>Yes. These grounds regularly host akad nikah ceremonies, engagements, persanding
+             ceremonies and open houses for around 300 guests. Booking the event hall together
+             with an overnight stay makes the morning of the event much easier for the family.</p>
         </div>
       </div>
 
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq3" id="faq3-btn">
-            <span>Cukupkah tempat letak kereta?</span>
+            <span>Is there enough parking?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq3" role="region" aria-labelledby="faq3-btn">
-          <p>Terdapat ruang letak kereta untuk kira-kira 40 buah kereta di dalam kawasan,
-             serta ruang tambahan di halaman untuk majlis yang lebih besar. Tiada sesiapa
-             perlu meletak kereta di tepi jalan besar.</p>
+          <p>There is parking for around 40 cars on-site, plus extra space in the grounds
+             for larger events. No one needs to park along the main road.</p>
         </div>
       </div>
 
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq4" id="faq4-btn">
-            <span>Bolehkah kami memasak di dapur?</span>
+            <span>Can we cook in the kitchen?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq4" role="region" aria-labelledby="faq4-btn">
-          <p>Silakan. Dapur dilengkapi untuk masakan keluarga dan terdapat ruang BBQ di luar.
-             Untuk majlis pula, pihak katering dialu-alukan membawa peralatan mereka sendiri.</p>
+          <p>Of course. The kitchen is equipped for family cooking and there's a BBQ area
+             outside. For events, caterers are welcome to bring their own equipment.</p>
         </div>
       </div>
 
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq5" id="faq5-btn">
-            <span>Bolehkah kami menghias sendiri ruang majlis?</span>
+            <span>Can we decorate the event hall ourselves?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq5" role="region" aria-labelledby="faq5-btn">
-          <p>Boleh — bawalah penghias anda sendiri, atau gunakan penghias kami. Kebenaran
-             masuk untuk persiapan biasanya bermula petang sebelum majlis. Kami hanya memohon
-             agar tiada paku dipacak pada kayu asal rumah.</p>
+          <p>Yes — bring your own decorator, or use ours. Access for setup usually begins
+             the evening before the event. We only ask that no nails be driven into the
+             house's original woodwork.</p>
         </div>
       </div>
 
       <div class="acc__item">
         <h3>
           <button class="acc__btn" type="button" aria-expanded="false" aria-controls="faq6" id="faq6-btn">
-            <span>Bagaimana untuk mengesahkan tempahan?</span>
+            <span>How do we confirm a booking?</span>
             <span class="acc__sign" aria-hidden="true"></span>
           </button>
         </h3>
         <div class="acc__panel" id="faq6" role="region" aria-labelledby="faq6-btn">
-          <p>Hantarkan mesej kepada kami dengan tarikh dan jumlah tetamu. Kami akan
-             menyemak kalendar, menghantar kadar sewa, dan menahan tarikh tersebut sebaik
-             sahaja deposit diterima.</p>
+          <p>Send us a message with your date and guest count. We'll check the calendar,
+             send you the rate, and hold the date as soon as the deposit is received.</p>
         </div>
       </div>
 
@@ -2938,7 +2936,7 @@ button {
 </section>-->
 
 <!-- =====================================================================
-     SERUAN TINDAKAN / HUBUNGI
+     CALL TO ACTION / CONTACT
      ===================================================================== -->
 <section class="cta" id="hubungi">
   <div class="ukiran-band ukiran-band--top" aria-hidden="true">
@@ -2946,24 +2944,24 @@ button {
   </div>
 
   <div class="container cta__inner" data-reveal>
-    <p class="eyebrow eyebrow--light">Jemput datang</p>
-    <h2 class="cta__title">Sudi Merasai Keramahan<br>Melayu Tradisi?</h2>
+    <p class="eyebrow eyebrow--light">Come Visit</p>
+    <h2 class="cta__title">Ready to Experience<br>Traditional Malay Hospitality?</h2>
 
-    <!-- Pantun jemputan — sentuhan tradisi menutup halaman -->
+    <!-- Invitation pantun — a traditional touch closing the page -->
     <p class="pantun">
-      Kelapa condong menghala ke barat,<br>
-      Daunnya melambai angin berlalu;<br>
-      Sudilah singgah wahai sahabat,<br>
-      Teratak kami menanti selalu.
+      The coconut palm leans to the west,<br>
+      Its fronds wave on as the breeze drifts through;<br>
+      Come, dear friend, stop and be our guest,<br>
+      Our teratak is always waiting for you.
     </p>
 
-    
+
     <div class="cta__actions">
-      <button class="btn btn--gold btn--lg" type="button" data-booking-open>Tempah sekarang</button>
-      <!-- GANTI: nombor telefon sebenar -->
-      <!-- <a class="btn btn--outline-light btn--lg" href="tel:+60123456789">Hubungi Sekarang</a> -->
+      <button class="btn btn--gold btn--lg" type="button" data-booking-open>Book Now</button>
+      <!-- REPLACE: your real phone number -->
+      <!-- <a class="btn btn--outline-light btn--lg" href="tel:+60123456789">Contact Us Now</a> -->
     </div>
-    <p class="cta__fine">Batu 38, Sabak Bernam, Selangor &middot; Menerima tempahan sepanjang tahun</p>
+    <p class="cta__fine">Batu 38, Sabak Bernam, Selangor &middot; Taking bookings year-round</p>
   </div>
 </section>
 
@@ -2982,68 +2980,68 @@ button {
         </span>
         <span class="brand__text">
           <span class="brand__name">Teratak Moro Seneng</span>
-          <span class="brand__sub">Homestay &amp; Ruang Majlis</span>
+          <span class="brand__sub">Homestay &amp; Event Hall</span>
         </span>
       </a>
       <p class="footer__blurb">
-        Sebuah rumah Melayu tradisional di Batu 38, Sabak Bernam — terbuka untuk keluarga,
-        pasangan pengantin dan syarikat yang mencari suasana lebih tenang.
+        A traditional Malay house in Batu 38, Sabak Bernam — open to families,
+        couples getting married and companies looking for a calmer setting.
       </p>
     </div>
 
     <div class="footer__col">
-      <h2 class="footer__head">Hubungi</h2>
+      <h2 class="footer__head">Contact</h2>
       <ul>
-        <li><a href="https://wa.me/60123456789" target="_blank" rel="noopener">Hubungi &middot; +60 12-345 6789</a></li>
+        <li><a href="https://wa.me/60123456789" target="_blank" rel="noopener">Contact &middot; +60 12-345 6789</a></li>
         <li><a href="mailto:salam@teratakmoroseneng.com">salam@teratakmoroseneng.com</a></li>
       </ul>
     </div>
   </div>
 
   <div class="container footer__bar">
-    <p>&copy; <span id="year">2026</span> Teratak Moro Seneng. Hak cipta terpelihara.</p>
+    <p>&copy; <span id="year">2026</span> Teratak Moro Seneng. All rights reserved.</p>
     <p>Batu 38, Sabak Bernam, Selangor, Malaysia</p>
   </div>
 </footer>
 
 <!-- =====================================================================
-     button TERAPUNG
+     FLOATING ACTION BUTTONS
      ===================================================================== -->
 <a class="fab fab--wa" id="fabWa"
-   href="https://wa.me/60123456789?text=Assalamualaikum%20Teratak%20Moro%20Seneng%2C%20saya%20ingin%20bertanya%20tentang%20tempahan."
-   target="_blank" rel="noopener" aria-label="Berbual dengan kami">
+   href="https://wa.me/60123456789?text=Assalamualaikum%20Teratak%20Moro%20Seneng%2C%20I%20would%20like%20to%20ask%20about%20booking."
+   target="_blank" rel="noopener" aria-label="Chat with us">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.5 3.75 1.4 5.32L2 22l4.98-1.55a9.9 9.9 0 0 0 5.06 1.38h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 13.9c-.24.68-1.4 1.3-1.94 1.34-.5.05-1.13.07-1.82-.11-.42-.11-.96-.29-1.66-.59-2.92-1.26-4.82-4.2-4.97-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.58-.36.77-.36l.55.01c.18 0 .42-.07.65.5.24.58.82 2.01.9 2.16.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.15-.29.31-.13.6.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.09 1.69.79 1.98.94.29.14.48.22.55.34.07.12.07.69-.17 1.36Z"/>
   </svg>
-  <span class="fab__label">Hubungi kami</span>
+  <span class="fab__label">Contact us</span>
 </a>
 
-<button class="fab fab--top" id="backToTop" type="button" aria-label="Kembali ke atas">
+<button class="fab fab--top" id="backToTop" type="button" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
 <!-- =====================================================================
-     MODAL TEMPAHAN
+     BOOKING MODAL
      ===================================================================== -->
 <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" hidden>
   <div class="booking-modal__panel">
-    <button class="booking-modal__close" id="bookingClose" type="button" aria-label="Tutup borang tempahan">&times;</button>
+    <button class="booking-modal__close" id="bookingClose" type="button" aria-label="Close booking form">&times;</button>
 
-    <h3 class="booking-modal__title" id="bookingTitle">Borang Tempahan</h3>
-    <p class="booking-modal__note">Isikan butiran di bawah — kami akan hubungi anda untuk sahkan tempahan.</p>
+    <h3 class="booking-modal__title" id="bookingTitle">Booking Form</h3>
+    <p class="booking-modal__note">Fill in the details below — we'll contact you to confirm your booking.</p>
 
     <form id="bookingForm" class="booking-form">
       <div class="booking-form__field">
-        <label for="bkName">Nama</label>
-        <input type="text" id="bkName" name="name" required placeholder="Nama penuh anda">
+        <label for="bkName">Name</label>
+        <input type="text" id="bkName" name="name" required placeholder="Your full name">
       </div>
 
       <div class="booking-form__field">
-        <span class="booking-form__label">Jenis tempahan</span>
+        <span class="booking-form__label">Booking type</span>
         <div class="booking-form__radios">
           <label class="booking-radio">
-            <input type="radio" name="type" value="Ruang Majlis" checked>
-            <span>Ruang Majlis</span>
+            <input type="radio" name="type" value="Event Hall" checked>
+            <span>Event Hall</span>
           </label>
           <label class="booking-radio">
             <input type="radio" name="type" value="Homestay">
@@ -3054,16 +3052,16 @@ button {
 
       <div class="booking-form__row">
         <div class="booking-form__field">
-          <label for="bkFrom">Tarikh dari</label>
+          <label for="bkFrom">From date</label>
           <input type="date" id="bkFrom" name="from" required>
         </div>
         <div class="booking-form__field">
-          <label for="bkTo">Tarikh hingga</label>
+          <label for="bkTo">To date</label>
           <input type="date" id="bkTo" name="to" required>
         </div>
       </div>
 
-      <button class="btn btn--gold btn--block" type="submit">Hantar Tempahan</button>
+      <button class="btn btn--gold btn--block" type="submit">Submit Booking</button>
     </form>
   </div>
 </div>
@@ -3071,17 +3069,17 @@ button {
 <!-- =====================================================================
      LIGHTBOX
      ===================================================================== -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pemapar gambar" hidden>
-  <button class="lightbox__close" id="lbClose" type="button" aria-label="Tutup pemapar gambar">&times;</button>
-  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="Gambar sebelumnya">&#8249;</button>
-  <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="Gambar seterusnya">&#8250;</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <button class="lightbox__close" id="lbClose" type="button" aria-label="Close image viewer">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="Previous image">&#8249;</button>
+  <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="Next image">&#8250;</button>
   <figure class="lightbox__figure">
     <img id="lbImage" src="" alt="">
     <figcaption id="lbCaption"></figcaption>
   </figure>
 </div>
 
-<!-- ===== Semua skrip dimasukkan di sini (asalnya js/script.js) ===== -->
+<!-- ===== All scripts are inlined here (originally js/script.js) ===== -->
 <script>
 /* =====================================================================
    TERATAK MORO SENENG — script.js
@@ -3119,8 +3117,8 @@ button {
   var WA_NUMBER  = '60123456789';
   var TEL_NUMBER = '+60123456789';
 
-  /* GANTI: URL "Web App" daripada Google Apps Script anda (berakhir dengan /exec).
-     Lihat arahan persediaan yang diberikan berasingan. Biar kosong untuk lumpuhkan. */
+  /* REPLACE: your Google Apps Script "Web App" URL (ending in /exec).
+     See the setup instructions provided separately. Leave blank to disable. */
   var SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycby4G-qgGvBGwIYnQK-rMZ6ozgWmcCGuujkExsEnDNA-3aBK8dCmCgMsr4FtJ_xnuhP50w/exec';
 
   /* The placeholder values currently written into index.html */
@@ -3190,7 +3188,7 @@ button {
       if (!menu || !toggle) return;
       menu.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Buka menu');
+      toggle.setAttribute('aria-label', 'Open menu');
       document.body.classList.remove('is-locked');
     };
 
@@ -3198,7 +3196,7 @@ button {
       toggle.addEventListener('click', function () {
         var open = menu.classList.toggle('is-open');
         toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         document.body.classList.toggle('is-locked', open);
       });
 
@@ -3415,7 +3413,7 @@ button {
      08. LIGHTBOX
      Generic: any element with an <img> and a data-caption can open it.
      Both the masonry grid and the moving carousel feed into it.
-     Papan kekunci: Escape menutup, anak panah menukar gambar.
+     Keyboard: Escape closes, arrow keys change the image.
      =================================================================== */
   var Lightbox = (function () {
     var box     = $('#lightbox');
@@ -3468,7 +3466,7 @@ button {
     btnPrev.addEventListener('click', function () { move(-1); });
     btnNext.addEventListener('click', function () { move(1); });
 
-    /* Klik latar belakang (bukan gambar atau punat) untuk menutup */
+    /* Click the background (not the image or a button) to close */
     box.addEventListener('click', function (e) {
       if (e.target === box || e.target.classList.contains('lightbox__figure')) close();
     });
@@ -3480,7 +3478,7 @@ button {
       if (e.key === 'ArrowRight') { move(1); }
     });
 
-    /* Sokongan leret pada peranti sentuh */
+    /* Swipe support on touch devices */
     var startX = null;
     box.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
     box.addEventListener('touchend', function (e) {
@@ -3515,9 +3513,9 @@ button {
 
 
   /* ===================================================================
-     08a. MODAL TEMPAHAN
-     Kumpul nama, jenis tempahan (Ruang Majlis / Homestay) dan tarikh,
-     kemudian hantar terus sebagai mesej yang sudah diisi.
+     08a. BOOKING MODAL
+     Collects name, booking type (Event Hall / Homestay) and dates,
+     then sends it straight out as a pre-filled message.
      =================================================================== */
   (function bookingModal() {
     var modal    = $('#bookingModal');
@@ -3530,8 +3528,8 @@ button {
 
     var opener = null;
 
-    /* Jika punat ini ditekan dari dalam laci menu mobile, tutup laci itu dahulu
-       supaya ia tidak kekal terbuka di belakang modal. */
+    /* If this button was pressed from inside the mobile menu drawer, close the
+       drawer first so it doesn't stay open behind the modal. */
     var closeMobileDrawer = function () {
       var navMenu   = $('#navMenu');
       var navToggle = $('#navToggle');
@@ -3539,7 +3537,7 @@ button {
       navMenu.classList.remove('is-open');
       if (navToggle) {
         navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.setAttribute('aria-label', 'Buka menu');
+        navToggle.setAttribute('aria-label', 'Open menu');
       }
     };
 
@@ -3547,7 +3545,7 @@ button {
       opener = trigger;
       closeMobileDrawer();
 
-      /* Jika punat pencetus ada data-booking-type, pra-pilih jenis tempahan itu */
+      /* If the trigger button has a data-booking-type, pre-select that booking type */
       var presetType = trigger && trigger.dataset ? trigger.dataset.bookingType : null;
       if (presetType) {
         var radio = form.querySelector('input[name="type"][value="' + presetType + '"]');
@@ -3579,7 +3577,7 @@ button {
       if (e.key === 'Escape') close();
     });
 
-    /* Tarikh "hingga" tidak boleh sebelum tarikh "dari" */
+    /* The "to" date cannot be before the "from" date */
     fromIn.addEventListener('change', function () {
       toIn.min = fromIn.value;
       if (toIn.value && toIn.value < fromIn.value) toIn.value = fromIn.value;
@@ -3588,18 +3586,18 @@ button {
     var formatTarikh = function (iso) {
       if (!iso) return '';
       var d = new Date(iso + 'T00:00:00');
-      return d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     };
 
-    /* Hantar baris tempahan ke Google Sheet melalui Apps Script Web App.
-       mode: 'no-cors' bermakna respons tidak boleh dibaca — ini "hantar sahaja",
-       yang mencukupi kerana kita hanya perlu Apps Script terima dan simpan data. */
+    /* Send the booking row to Google Sheets via the Apps Script Web App.
+       mode: 'no-cors' means the response can't be read — this is "send only",
+       which is enough because we just need Apps Script to receive and save the data. */
     var saveToSheet = function (data) {
       if (!SHEET_WEBAPP_URL) return;
       var params = new URLSearchParams();
       Object.keys(data).forEach(function (key) { params.append(key, data[key]); });
       fetch(SHEET_WEBAPP_URL, { method: 'POST', mode: 'no-cors', body: params })
-        .catch(function () { /* tiada sambungan — tempahan masih diteruskan */ });
+        .catch(function () { /* no connection — the booking still proceeds */ });
     };
 
     form.addEventListener('submit', function (e) {
@@ -3612,10 +3610,10 @@ button {
       saveToSheet({ name: name, type: type, from: from, to: to });
 
       var message =
-        'Assalamualaikum Teratak Moro Seneng, saya ingin membuat tempahan.\n' +
-        'Nama: ' + name + '\n' +
-        'Jenis: ' + type + '\n' +
-        'Tarikh: ' + formatTarikh(from) + ' - ' + formatTarikh(to);
+        'Assalamualaikum Teratak Moro Seneng, I would like to make a booking.\n' +
+        'Name: ' + name + '\n' +
+        'Type: ' + type + '\n' +
+        'Date: ' + formatTarikh(from) + ' - ' + formatTarikh(to);
 
       window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(message), '_blank', 'noopener');
       close();
@@ -3625,10 +3623,10 @@ button {
 
 
   /* ===================================================================
-     08b. KARUSEL BERGERAK — "Selayang pandang"
-     Trek diduakan supaya animasi -50% -> 0 bersambung tanpa jeda.
-     Salinan ditanda data-clone dan disembunyikan daripada pembaca skrin
-     serta daripada susunan tab, jadi ia tidak diulang dua kali.
+     08b. MOVING CAROUSEL — "A Glimpse"
+     The track is duplicated so the -50% -> 0 animation loops without a gap.
+     Clones are marked data-clone and hidden from screen readers and from
+     the tab order, so they are never announced twice.
      =================================================================== */
   (function marquee() {
     var track = $('#marqueeTrack');
@@ -3637,7 +3635,7 @@ button {
     var originals = $$('.cslide', track);
     if (!originals.length) return;
 
-    /* Salin satu set penuh ke hujung trek */
+    /* Copy one full set to the end of the track */
     var frag = document.createDocumentFragment();
     originals.forEach(function (slide) {
       var clone = slide.cloneNode(true);
@@ -3648,15 +3646,15 @@ button {
     });
     track.appendChild(frag);
 
-    /* Kelajuan mengikut lebar: kepingan lebih banyak, masa lebih panjang */
+    /* Speed scales with width: more slides, longer duration */
     var seconds = Math.max(30, originals.length * 7);
     track.style.animationDuration = seconds + 's';
 
-    /* Kepingan asal membuka lightbox; senarai kitarannya ialah yang asal */
+    /* Original slides open the lightbox; their cycle list is the originals */
     var listOf = function () { return originals; };
     originals.forEach(function (slide) { Lightbox.attach(slide, listOf); });
 
-    /* Klon menyerahkan klik kepada kepingan asal yang sepadan */
+    /* Clones forward their click to the matching original slide */
     $$('.cslide[data-clone]', track).forEach(function (clone, i) {
       clone.addEventListener('click', function () {
         if (originals[i]) originals[i].click();
