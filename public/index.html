@@ -1457,14 +1457,32 @@ button {
 }
 
 .nearby__card {
+  position: relative;
+  overflow: hidden;
+  min-height: 168px;
   padding: 1.15rem;
-  background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
+  background-size: cover;
+  background-position: center;
   transition: transform var(--t-mid) var(--ease),
               box-shadow var(--t-mid) var(--ease),
               border-color var(--t-mid) var(--ease);
 }
+/* Dark scrim over the photo so the icon/heading/text stay legible */
+.nearby__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(190deg, rgba(30, 22, 11, .28) 0%, rgba(30, 22, 11, .86) 100%);
+}
+.nearby__card > * { position: relative; z-index: 1; }
+
+.nearby__card--beach     { background-image: url('/images/pantai-bagan-nakhoda-omar.jpg'); }
+.nearby__card--museum    { background-image: url('/images/muzium-sabak-bernam.jpg'); }
+.nearby__card--waterfront { background-image: url('/images/waterfront-sabak-bernam.jpg'); }
+.nearby__card--fireflies { background-image: url('/images/kelip-kelip-kuala-selangor.jpg'); }
+
 .nearby__card:hover {
   transform: translateY(-5px);
   border-color: var(--line-strong);
@@ -1474,14 +1492,14 @@ button {
   font-family: var(--display);
   font-size: 1rem;
   font-weight: 400;
-  color: var(--wood-deep);
+  color: #fff;
   margin: 0 0 .4rem;
 }
 .nearby__card p {
   margin: 0;
   font-size: .78rem;
   line-height: 1.55;
-  color: var(--ink-55);
+  color: rgba(255, 255, 255, .82);
 }
 
 .nearby__icon {
@@ -1490,14 +1508,16 @@ button {
   width: 38px; height: 38px;
   margin-bottom: .8rem;
   border-radius: 10px;
-  background: var(--beige-pale);
+  background: rgba(255, 255, 255, .16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   transition: background-color var(--t-mid) var(--ease), transform var(--t-mid) var(--ease);
 }
-.nearby__card:hover .nearby__icon { background: var(--beige); transform: rotate(-4deg); }
+.nearby__card:hover .nearby__icon { background: rgba(255, 255, 255, .28); transform: rotate(-4deg); }
 .nearby__icon svg {
   width: 19px; height: 19px;
   fill: none;
-  stroke: var(--wood);
+  stroke: #fff;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -2796,7 +2816,7 @@ button {
         <p class="location__nearby-label" data-reveal>Nearby Attractions</p>
 
         <div class="nearby__grid">
-          <div class="nearby__card" data-reveal>
+          <div class="nearby__card nearby__card--beach" data-reveal>
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg>
             </span>
@@ -2804,7 +2824,7 @@ button {
             <p>Known as the "Bearded Tree Beach" — striking, unique mangrove roots lining the shoreline.</p>
           </div>
 
-          <div class="nearby__card" data-reveal data-reveal-delay="1">
+          <div class="nearby__card nearby__card--museum" data-reveal data-reveal-delay="1">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M3 10h18M4 10v10M8 10v10M12 10v10M16 10v10M20 10v10M2 21h20M3 10l9-6 9 6"/></svg>
             </span>
@@ -2812,7 +2832,7 @@ button {
             <p>The local community's farming and fishing history, located on Jalan Pasar.</p>
           </div>
 
-          <div class="nearby__card" data-reveal data-reveal-delay="2">
+          <div class="nearby__card nearby__card--waterfront" data-reveal data-reveal-delay="2">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/></svg>
             </span>
@@ -2820,7 +2840,7 @@ button {
             <p>A riverside recreational park with a children's playground — perfect for families.</p>
           </div>
 
-          <div class="nearby__card" data-reveal data-reveal-delay="3">
+          <div class="nearby__card nearby__card--fireflies" data-reveal data-reveal-delay="3">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>
             </span>
