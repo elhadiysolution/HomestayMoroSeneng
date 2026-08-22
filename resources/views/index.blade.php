@@ -1992,7 +1992,7 @@ button {
     "description": "Traditional Malay homestay and event venue in Batu 38, Sabak Bernam, Selangor.",
     "url": "https://homestaymoroseneng.pages.dev/",
     "image": "https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg",
-    "telephone": "+60123456789",
+    "telephone": "+60133950231",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -2796,7 +2796,7 @@ button {
     <div class="footer__col">
       <h2 class="footer__head">Contact</h2>
       <ul>
-        <li><a href="https://wa.me/60123456789" target="_blank" rel="noopener">Contact &middot; +60 12-345 6789</a></li>
+        <li><a href="https://wa.me/60123456789" target="_blank" rel="noopener">Contact &middot; +60 13-395 0231</a></li>
         <li><a href="mailto:salam@teratakmoroseneng.com">salam@teratakmoroseneng.com</a></li>
       </ul>
     </div>
@@ -2918,8 +2918,8 @@ button {
 
   /* REPLACE: the only place the contact number needs changing.
      Format: country code + number, digits only. */
-  var WA_NUMBER  = '60123456789';
-  var TEL_NUMBER = '+60123456789';
+  var WA_NUMBER  = '60133950231';
+  var TEL_NUMBER = '+60133950231';
 
   /* REPLACE: your Google Apps Script "Web App" URL (ending in /exec).
      See the setup instructions provided separately. Leave blank to disable. */
