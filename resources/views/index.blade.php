@@ -1,5 +1,73 @@
+@php
+    /* Locale wiring. All page copy lives in lang/{en,ms}/site.php — search
+       there, not here, when the wording needs to change. */
+    $locale = app()->getLocale();
+
+    /* Root-relative page paths, one per language. These are the real URLs on
+       Cloudflare Pages ("/" and "/en/"), and the same paths the Laravel routes
+       answer on, so the switcher below works in both places unchanged. */
+    $pages = ['ms' => '/', 'en' => '/en/'];
+
+    /* Absolute canonical / og:url and hreflang need the live domain, which the
+       static export has no request to infer it from. */
+    $siteUrl   = 'https://homestaymoroseneng.pages.dev';
+    $canonical = $siteUrl.$pages[$locale];
+
+    /* Structured data for rich results. Built here rather than written out as
+       literal JSON because the "@context" / "@type" keys would need wrapping
+       in @verbatim to keep Blade off them, and the description is translated. */
+    $schema = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'LodgingBusiness',
+        'name'        => 'Teratak Moro Seneng',
+        'description' => __('site.meta.schema_desc'),
+        'url'         => $canonical,
+        'image'       => $siteUrl.'/images/moroseneng5.jpeg',
+        'telephone'   => '+60133950231',
+        'priceRange'  => '$$',
+        'inLanguage'  => $locale,
+        'address'     => [
+            '@type'           => 'PostalAddress',
+            'streetAddress'   => 'Batu 38',
+            'addressLocality' => 'Sabak Bernam',
+            'addressRegion'   => 'Selangor',
+            'addressCountry'  => 'MY',
+        ],
+        'amenityFeature' => array_map(fn ($name) => [
+            '@type' => 'LocationFeatureSpecification',
+            'name'  => $name,
+            'value' => true,
+        ], ['Free parking', 'WiFi', 'Air conditioning', 'Prayer room', 'Kitchen', 'BBQ area']),
+    ];
+
+    /* Every string the inline script writes to the screen, already translated.
+       Handed to the JS as one object near the top of the <script> block. */
+    $js = [
+        'openMenu'   => __('site.a11y.open_menu'),
+        'closeMenu'  => __('site.a11y.close_menu'),
+        'bookTitle'  => __('site.booking.title'),
+        'doneTitle'  => __('site.booking.done_title'),
+        'loading'    => __('site.booking.js.loading'),
+        'redBooked'  => __('site.booking.js.red_booked'),
+        'allOpen'    => __('site.booking.js.all_open'),
+        'loadFailed' => __('site.booking.js.load_failed'),
+        'crosses'    => __('site.booking.js.crosses'),
+        'pickEnd'    => __('site.booking.js.pick_end'),
+        'selected'   => __('site.booking.js.selected'),
+        'pickFirst'  => __('site.booking.js.pick_first'),
+        'dow'        => __('site.booking.js.dow'),
+        'dateLocale' => __('site.booking.js.date_locale'),
+        'waRequest'  => __('site.booking.wa_request'),
+
+        /* Sheet value -> label the guest sees. Keys match the radio values. */
+        'types' => [
+            'Event Hall' => __('site.booking.event_hall'),
+            'Homestay'   => __('site.booking.homestay'),
+        ],
+    ];
+@endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ $locale }}">
 <head>
 <!-- ===================================================================
      TERATAK MORO SENENG — Traditional Homestay & Event Venue
@@ -22,30 +90,37 @@
   <meta name="theme-color" content="#6B4F2A">
 
   <!-- ============================ SEO ============================ -->
-  <title>Teratak Moro Seneng | Traditional Homestay &amp; Event Venue in Sabak Bernam</title>
-  <meta name="description" content="Experience traditional Malay living at Teratak Moro Seneng, Batu 38 Sabak Bernam. A spacious homestay and a beautiful event venue for weddings, engagements and family gatherings.">
-  <meta name="keywords" content="homestay Sabak Bernam, homestay Selangor, kampung house rental, event venue Sabak Bernam, wedding venue, akad nikah venue Selangor, engagement ceremony, family gathering">
+  <title>{{ __('site.meta.title') }}</title>
+  <meta name="description" content="{{ __('site.meta.description') }}">
+  <meta name="keywords" content="{{ __('site.meta.keywords') }}">
   <meta name="author" content="Teratak Moro Seneng">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://homestaymoroseneng.pages.dev/">
+  <link rel="canonical" href="{{ $canonical }}">
+
+  <!-- Tell search engines the two pages are the same content in two languages,
+       so neither is treated as a duplicate of the other. -->
+  @foreach ($pages as $code => $path)
+    <link rel="alternate" hreflang="{{ $code }}" href="{{ $siteUrl.$path }}">
+  @endforeach
+  <link rel="alternate" hreflang="x-default" href="{{ $siteUrl.$pages['ms'] }}">
 
   <!-- ======================== Open Graph ========================= -->
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_MY">
+  <meta property="og:locale" content="{{ __('site.meta.og_locale') }}">
   <meta property="og:site_name" content="Teratak Moro Seneng">
-  <meta property="og:title" content="Teratak Moro Seneng | Traditional Homestay &amp; Event Venue in Sabak Bernam">
-  <meta property="og:description" content="Sleep in a spacious traditional Malay house, surrounded by tranquil village greenery — or make lasting memories at your engagement, akad nikah, persanding ceremony or family gathering here.">
-  <meta property="og:url" content="https://homestaymoroseneng.pages.dev/">
-  <meta property="og:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
+  <meta property="og:title" content="{{ __('site.meta.og_title') }}">
+  <meta property="og:description" content="{{ __('site.meta.og_desc') }}">
+  <meta property="og:url" content="{{ $canonical }}">
+  <meta property="og:image" content="{{ $siteUrl }}/images/moroseneng5.jpeg">
   <meta property="og:image:width" content="719">
   <meta property="og:image:height" content="814">
-  <meta property="og:image:alt" content="Exterior view of Teratak Moro Seneng, a traditional wooden house at dusk">
+  <meta property="og:image:alt" content="{{ __('site.meta.og_image_alt') }}">
 
   <!-- ========================== Twitter ========================== -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Teratak Moro Seneng | Traditional Homestay &amp; Event Venue">
-  <meta name="twitter:description" content="Traditional Malay living in Batu 38, Sabak Bernam. A homestay for families, an event venue for weddings and ceremonies.">
-  <meta name="twitter:image" content="https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg">
+  <meta name="twitter:title" content="{{ __('site.meta.tw_title') }}">
+  <meta name="twitter:description" content="{{ __('site.meta.tw_desc') }}">
+  <meta name="twitter:image" content="{{ $siteUrl }}/images/moroseneng5.jpeg">
 
   <!-- ===================== Fonts (preconnect) ====================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -565,8 +640,11 @@ button {
 .nav.is-stuck .brand__name { color: var(--wood-deep); }
 .nav.is-stuck .brand__sub  { color: var(--wood-soft); }
 
-/* --- Menu --- */
-.nav__menu { display: flex; align-items: center; gap: 1.6rem; }
+/* --- Menu ---
+   margin-left:auto soaks up the free space so the menu and the language pill
+   sit together on the right, rather than space-between spreading all three
+   groups across the bar. Harmless once the menu becomes a fixed drawer. */
+.nav__menu { display: flex; align-items: center; gap: 1.6rem; margin-left: auto; }
 .nav__list { display: flex; align-items: center; gap: 1.45rem; }
 
 .nav__link {
@@ -614,6 +692,53 @@ button {
 .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(2) { opacity: 0; }
 .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --- Language switch (BM / EN) ---
+   Lives outside .nav__menu so it stays on the bar on mobile rather than
+   disappearing into the drawer. `order` pushes it past the menu on desktop;
+   below 960px the menu is a fixed drawer, so order stops mattering. */
+.nav__end { display: flex; align-items: center; gap: .55rem; order: 3; }
+
+.lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color var(--t-mid) var(--ease),
+              background-color var(--t-mid) var(--ease);
+}
+.lang__opt {
+  display: block;
+  padding: .34rem .64rem;
+  border-radius: 999px;
+  font-size: .71rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  line-height: 1;
+  color: rgba(255, 255, 255, .82);
+  transition: color var(--t-fast) var(--ease),
+              background-color var(--t-fast) var(--ease);
+}
+.lang__opt:hover { color: #fff; background: rgba(255, 255, 255, .14); }
+.lang__opt.is-active {
+  background: var(--gold);
+  color: #fff;
+  cursor: default;
+}
+
+/* Once the glass bar kicks in the background is light, so flip the tones. */
+.nav.is-stuck .lang {
+  border-color: var(--line-strong);
+  background: rgba(107, 79, 42, .05);
+}
+.nav.is-stuck .lang__opt { color: var(--ink-70); }
+.nav.is-stuck .lang__opt:hover { color: var(--wood-deep); background: rgba(107, 79, 42, .08); }
+.nav.is-stuck .lang__opt.is-active { background: var(--gold); color: #fff; }
 
 
 /* =====================================================================
@@ -845,7 +970,7 @@ button {
   flex-direction: column;
   background:
     linear-gradient(rgba(248, 246, 242, .9), rgba(248, 246, 242, .9)),
-    url('{{ asset('images/bgMS.jpg') }}') center / cover no-repeat;
+    url('/images/bgMS.jpg') center / cover no-repeat;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   overflow: hidden;
@@ -937,7 +1062,7 @@ button {
   padding: clamp(1.5rem, 3vw, 2rem);
   background:
     linear-gradient(rgba(248, 246, 242, .9), rgba(248, 246, 242, .9)),
-    url('{{ asset('images/bgMS.jpg') }}') center / cover no-repeat;
+    url('/images/bgMS.jpg') center / cover no-repeat;
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   transition: transform var(--t-mid) var(--ease),
@@ -1246,6 +1371,8 @@ button {
 }
 
 .booking-form { display: grid; gap: 1.2rem; }
+/* `display: grid` above would otherwise beat the [hidden] attribute */
+.booking-form[hidden] { display: none; }
 .booking-form__field { display: grid; gap: .4rem; }
 .booking-form__field label,
 .booking-form__label {
@@ -1290,6 +1417,123 @@ button {
 .booking-radio:has(input:checked) {
   border-color: var(--gold);
   background: var(--beige-pale);
+  color: var(--wood-deep);
+}
+
+/* --- Availability calendar inside the booking form --- */
+.booking-cal { display: grid; gap: .55rem; }
+.booking-cal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.booking-cal__nav {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  color: var(--wood-deep);
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background-color var(--t-fast) var(--ease);
+}
+.booking-cal__nav:hover:not(:disabled) { background: var(--beige); }
+.booking-cal__nav:disabled { opacity: .3; cursor: not-allowed; }
+.booking-cal__month {
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--wood-deep);
+}
+.booking-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.booking-cal__dow {
+  text-align: center;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--wood-soft);
+  padding-bottom: .25rem;
+}
+.booking-cal__day {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: #fff;
+  font-size: .8rem;
+  color: var(--ink);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.booking-cal__day:hover:not(:disabled) { background: var(--beige-pale); }
+.booking-cal__day:disabled { cursor: not-allowed; }
+.booking-cal__day.is-empty { background: none; border: 0; }
+.booking-cal__day.is-past { background: var(--bg-alt); color: var(--ink-55); opacity: .5; }
+.booking-cal__day.is-booked {
+  background: #F3D9D5;
+  border-color: #E4B4AD;
+  color: #9B2C22;
+  text-decoration: line-through;
+}
+.booking-cal__day.is-selected,
+.booking-cal__day.is-range-start,
+.booking-cal__day.is-range-end {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+.booking-cal__day.is-in-range { background: var(--beige); color: var(--wood-deep); }
+.booking-cal__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .85rem;
+  font-size: .66rem;
+  color: var(--ink-70);
+}
+.booking-cal__legend span { display: inline-flex; align-items: center; gap: .35rem; }
+.booking-cal__legend i {
+  width: 11px; height: 11px;
+  display: inline-block;
+  border-radius: 3px;
+}
+.booking-cal__legend i.k-open   { background: #fff; border: 1px solid var(--line-strong); }
+.booking-cal__legend i.k-booked { background: #F3D9D5; border: 1px solid #E4B4AD; }
+.booking-cal__legend i.k-sel    { background: var(--gold); }
+.booking-cal__status { margin: 0; font-size: .72rem; color: var(--ink-55); }
+
+/* --- "Request sent" panel, swapped in for the form after submitting --- */
+.booking-done { display: grid; gap: .9rem; text-align: center; }
+.booking-done[hidden] { display: none; }
+.booking-done__mark {
+  justify-self: center;
+  width: 54px; height: 54px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.booking-done__title {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  color: var(--wood-deep);
+}
+.booking-done__text {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--ink-70);
+}
+.booking-done__pending {
+  padding: .7rem 1rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--beige-pale);
+  font-size: .74rem;
   color: var(--wood-deep);
 }
 
@@ -1347,7 +1591,7 @@ button {
   padding: clamp(1.75rem, 3vw, 2.4rem);
   background:
     linear-gradient(rgba(248, 246, 242, .9), rgba(248, 246, 242, .9)),
-    url('{{ asset('images/bgMS.jpg') }}') center / cover no-repeat;
+    url('/images/bgMS.jpg') center / cover no-repeat;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-sm);
@@ -1478,10 +1722,10 @@ button {
 }
 .nearby__card > * { position: relative; z-index: 1; }
 
-.nearby__card--beach     { background-image: url('{{ asset('images/pantai-bagan-nakhoda-omar.jpg') }}'); }
-.nearby__card--museum    { background-image: url('{{ asset('images/muzium-sabak-bernam.jpg') }}'); }
-.nearby__card--waterfront { background-image: url('{{ asset('images/waterfront-sabak-bernam.jpg') }}'); }
-.nearby__card--fireflies { background-image: url('{{ asset('images/kelip-kelip-kuala-selangor.jpg') }}'); }
+.nearby__card--beach     { background-image: url('/images/pantai-bagan-nakhoda-omar.jpg'); }
+.nearby__card--museum    { background-image: url('/images/muzium-sabak-bernam.jpg'); }
+.nearby__card--waterfront { background-image: url('/images/waterfront-sabak-bernam.jpg'); }
+.nearby__card--fireflies { background-image: url('/images/kelip-kelip-kuala-selangor.jpg'); }
 
 .nearby__card:hover {
   transform: translateY(-5px);
@@ -1923,6 +2167,11 @@ button {
   .nav.is-stuck .nav__link.is-active { color: #fff; }
   .nav__link::after { display: none; }
   .nav__cta { align-self: stretch; }
+
+  /* The drawer is fixed-positioned, so it paints over the static hamburger
+     and language pill. Lift them so both stay tappable while it's open —
+     that's what turns the burger into a working close (X) button. */
+  .nav__end { position: relative; z-index: 2; }
 }
 
 /* ---- Fine-tuning for phones ---- */
@@ -1984,33 +2233,7 @@ button {
 
   <!-- ============== Structured data (rich results) ============== -->
   <script type="application/ld+json">
-  @verbatim
-  {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "Teratak Moro Seneng",
-    "description": "Traditional Malay homestay and event venue in Batu 38, Sabak Bernam, Selangor.",
-    "url": "https://homestaymoroseneng.pages.dev/",
-    "image": "https://homestaymoroseneng.pages.dev/images/moroseneng5.jpeg",
-    "telephone": "+60133950231",
-    "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Batu 38",
-      "addressLocality": "Sabak Bernam",
-      "addressRegion": "Selangor",
-      "addressCountry": "MY"
-    },
-    "amenityFeature": [
-      { "@type": "LocationFeatureSpecification", "name": "Free parking", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Air conditioning", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Prayer room", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Kitchen", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "BBQ area", "value": true }
-    ]
-  }
-  @endverbatim
+  {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG) !!}
   </script>
 </head>
 
@@ -2044,15 +2267,15 @@ button {
 <!-- =====================================================================
      PRELOADER
      ===================================================================== -->
-<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading Teratak Moro Seneng">
+<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="{{ __('site.a11y.loading') }}">
   <div class="preloader__mark">
-    <img src="{{ asset('images/logoMS.png') }}" alt="" width="120" height="85">
+    <img src="/images/logoMS.png" alt="" width="120" height="85">
   </div>
   <p class="preloader__word">Teratak Moro Seneng</p>
 </div>
 
 <!-- Skip link for keyboard users -->
-<a class="skip-link" href="#main">Skip to main content</a>
+<a class="skip-link" href="#main">{{ __('site.a11y.skip') }}</a>
 
 <!-- =====================================================================
      STICKY HEADER / NAVIGATION
@@ -2062,33 +2285,47 @@ button {
 <header class="nav" id="nav">
   <div class="nav__inner container">
 
-    <a class="brand" href="#utama" aria-label="Teratak Moro Seneng, back to top">
+    <a class="brand" href="#utama" aria-label="{{ __('site.a11y.brand_home') }}">
       <span class="brand__mark" aria-hidden="true">
-        <img src="{{ asset('images/logoMS.png') }}" alt="" width="68" height="48">
+        <img src="/images/logoMS.png" alt="" width="68" height="48">
       </span>
       <span class="brand__text">
         <span class="brand__name">Teratak Moro Seneng</span>
-        <span class="brand__sub">Sabak Bernam &middot; Selangor</span>
+        <span class="brand__sub">{{ __('site.nav.brand_sub') }}</span>
       </span>
     </a>
 
-    <!-- Mobile menu button -->
-    <button class="nav__toggle" id="navToggle" type="button"
-            aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
-      <span class="nav__bar"></span>
-      <span class="nav__bar"></span>
-      <span class="nav__bar"></span>
-    </button>
+    <!-- Language switch + hamburger. Both sit outside .nav__menu so the
+         language pill stays reachable on mobile without opening the drawer. -->
+    <div class="nav__end">
+      <div class="lang" role="group" aria-label="{{ __('site.a11y.lang_switch') }}">
+        @foreach (['ms' => 'BM', 'en' => 'EN'] as $code => $label)
+          @if ($code === $locale)
+            <span class="lang__opt is-active" aria-current="true">{{ $label }}</span>
+          @else
+            <a class="lang__opt" href="{{ $pages[$code] }}" hreflang="{{ $code }}">{{ $label }}</a>
+          @endif
+        @endforeach
+      </div>
 
-    <nav class="nav__menu" id="navMenu" aria-label="Main menu">
+      <!-- Mobile menu button -->
+      <button class="nav__toggle" id="navToggle" type="button"
+              aria-expanded="false" aria-controls="navMenu" aria-label="{{ __('site.a11y.open_menu') }}">
+        <span class="nav__bar"></span>
+        <span class="nav__bar"></span>
+        <span class="nav__bar"></span>
+      </button>
+    </div>
+
+    <nav class="nav__menu" id="navMenu" aria-label="{{ __('site.a11y.main_menu') }}">
       <ul class="nav__list">
-        <li><a class="nav__link" href="#tentang">About</a></li>
-        <li><a class="nav__link" href="#penginapan">Homestay</a></li>
-        <li><a class="nav__link" href="#galeri">Gallery</a></li>
-        <li><a class="nav__link" href="#majlis">Events</a></li>
-        <li><a class="nav__link" href="#hubungi">Location</a></li>
+        <li><a class="nav__link" href="#tentang">{{ __('site.nav.about') }}</a></li>
+        <li><a class="nav__link" href="#penginapan">{{ __('site.nav.homestay') }}</a></li>
+        <li><a class="nav__link" href="#galeri">{{ __('site.nav.gallery') }}</a></li>
+        <li><a class="nav__link" href="#majlis">{{ __('site.nav.events') }}</a></li>
+        <li><a class="nav__link" href="#hubungi">{{ __('site.nav.location') }}</a></li>
       </ul>
-      <button class="btn btn--gold btn--sm nav__cta" type="button" data-booking-open>Contact Us</button>
+      <button class="btn btn--gold btn--sm nav__cta" type="button" data-booking-open>{{ __('site.nav.contact') }}</button>
     </nav>
   </div>
 </header>
@@ -2103,8 +2340,8 @@ button {
   <!-- Parallax image layer (driven by JS on scroll) -->
   <div class="hero__media" id="heroMedia">
     <!-- REPLACE: a wide shot of your house at dusk -->
-    <img src="{{ asset('images/moroseneng.jpg') }}"
-         alt="Traditional Malay house with a tall roof surrounded by coconut trees at dusk"
+    <img src="/images/moroseneng.png"
+         alt="{{ __('site.hero.img_alt') }}"
          fetchpriority="high" decoding="async" width="4096" height="3072">
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
@@ -2113,48 +2350,38 @@ button {
   <div class="leaves" id="leaves" aria-hidden="true"></div>
 
   <div class="hero__content container">
-    <p class="eyebrow eyebrow--light hero__eyebrow">Batu 38 &middot; Sabak Bernam &middot; Selangor</p>
+    <p class="eyebrow eyebrow--light hero__eyebrow">{{ __('site.hero.eyebrow') }}</p>
 
     <h1 class="hero__title">
-      A Grand Traditional House, A Living Heritage<br>
-      <em>For Your Stay and Your Celebration.</em>
+      {!! __('site.hero.title_html') !!}
     </h1>
-
     <p class="hero__lead">
-      Set in Batu 38, Sabak Bernam, Teratak Moro Seneng is a traditional Malay wooden house where heritage, 
-      hospitality and togetherness come together. Stay with family, gather with loved ones, 
-      or celebrate life's special moments in a setting unlike any other.
-    </p> 
+      {{ __('site.hero.lead') }}
+    </p>
 
     <div class="hero__actions">
-      <div class="hero__picker" role="group" aria-label="Choose booking type">
+      <div class="hero__picker" role="group" aria-label="{{ __('site.a11y.booking_type') }}">
         <span class="hero__picker-glide" aria-hidden="true"></span>
         <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Event Hall">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/></svg>
-          Event Hall
+          {{ __('site.hero.event_hall') }}
         </button>
         <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Homestay">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/></svg>
-          Homestay
+          {{ __('site.hero.homestay') }}
         </button>
       </div>
-      <!--<a class="btn btn--text-light" href="#galeri">
-        <span class="btn__play" aria-hidden="true"></span> Browse Gallery
-      </a>-->
     </div>
 
     <!-- The three things guests ask about most -->
     <ul class="hero__facts">
-      <li><strong>6+</strong><span>Bedrooms</span></li>
-      <li><strong>25+</strong><span>Overnight Guests</span></li>
-      <li><strong>1 acre</strong><span>Open Grounds</span></li>
+      <li><strong>6+</strong><span>{{ __('site.hero.fact_rooms') }}</span></li>
+      <li><strong>25+</strong><span>{{ __('site.hero.fact_guests') }}</span></li>
+      <li><strong>{{ __('site.hero.fact_acre') }}</strong><span>{{ __('site.hero.fact_land') }}</span></li>
     </ul>
   </div>
 
-  <a class="scroll-cue" href="#tentang" aria-label="Scroll to the About section">
-    <span class="scroll-cue__line" aria-hidden="true"></span>
-    <span class="scroll-cue__word">Come on in</span>
-  </a>
+ 
 
   <!-- Carved fretwork silhouette closing the hero — the page's signature element -->
   <div class="ukiran-band ukiran-band--bottom" aria-hidden="true">
@@ -2170,29 +2397,23 @@ button {
 
     <div class="about__media" data-reveal>
       <figure class="about__photo about__photo--tall">
-        <img src="{{ asset('images/moroseneng1.jpeg') }}"
-             alt="Sunlight falling across the wooden floorboards of the main living room"
+        <img src="/images/moroseneng1.jpeg"
+             alt="{{ __('site.about.img_alt') }}"
              loading="lazy" decoding="async" width="700" height="900">
       </figure>
     </div>
 
     <div class="about__body" data-reveal data-reveal-delay="1">
-      <p class="eyebrow">Welcome Home</p>
-      <h2 class="h2">One House,<br><em>A Thousand Stories.</em></h2>
+      <p class="eyebrow">{{ __('site.about.eyebrow') }}</p>
+      <h2 class="h2">{!! __('site.about.title_html') !!}</h2>
 
-      <p>Built in the 1960s and carried through generations, 
-        Moro Seneng is more than a place to stay. Its timber structure, 
-        traditional craftsmanship and distinctive Malay-Javanese character 
-        tell the story of a family home built with care and meant to endure. 
-        Today, its doors are open for families, gatherings and celebrations 
-        to create stories of their own.</p>
+      <p>{{ __('site.about.body') }}</p>
       <ul class="ticks">
-        <li>Traditional craftsmanship and architecture</li>
-        <li>A Spacious setting for stays and gatherings</li>
-        
+        <li>{{ __('site.about.tick_1') }}</li>
+        <li>{{ __('site.about.tick_2') }}</li>
       </ul>
 
-      <a class="link-arrow" href="#penginapan">Explore More <span aria-hidden="true">&rarr;</span></a>
+      <a class="link-arrow" href="#penginapan">{{ __('site.about.link') }} <span aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -2203,8 +2424,8 @@ button {
 <section class="section section--alt services">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">The Experience We Offer</p>
-      <h2 class="h2">One Place, Many Ways to Gather</h2>
+      <p class="eyebrow">{{ __('site.services.eyebrow') }}</p>
+      <h2 class="h2">{{ __('site.services.title') }}</h2>
       <div class="rule" aria-hidden="true"><span></span><svg viewBox="0 0 48 24"><path d="M24 2c6 4 9 8 9 12 0 5-4 8-9 8s-9-3-9-8c0-4 3-8 9-12Zm0 6c-3 3-4.5 5.4-4.5 7.6 0 2.6 2 4.4 4.5 4.4s4.5-1.8 4.5-4.4C28.5 13.4 27 11 24 8Z"/><path d="M2 12h9M37 12h9"/></svg><span></span></div>
     </header>
 
@@ -2213,43 +2434,42 @@ button {
       <!-- Card 1 — Homestay -->
       <article class="scard" id="penginapan" data-reveal>
         <div class="scard__media">
-          <img src="{{ asset('images/moroseneng5.jpeg') }}"
-               alt="Exterior of the homestay with wooden steps and a shaded veranda"
+          <img src="/images/moroseneng5.jpeg"
+               alt="{{ __('site.services.stay.img_alt') }}"
                loading="lazy" decoding="async" width="1000" height="667">
-          <span class="scard__tag">Whole house</span>
+          <span class="scard__tag">{{ __('site.services.stay.tag') }}</span>
         </div>
         <div class="scard__body">
-          <h3 class="scard__title"></span>Traditional Homestay</h3>
-          <p>Enjoy the tranquility of a spacious, comfortable traditional wooden house.
-            The whole house to yourselves, perfect for families and more meaningful getaways.</p>
+          <h3 class="scard__title">{{ __('site.services.stay.title') }}</h3>
+          <p>{{ __('site.services.stay.body') }}</p>
           <ul class="feature-list">
-            <li>Exclusive traditional wooden house</li>
-            <li>6 comfortable bedrooms</li>
-            <li>Full kitchen</li>
-            <li>Ample parking</li>
+            <li>{{ __('site.services.stay.f1') }}</li>
+            <li>{{ __('site.services.stay.f2') }}</li>
+            <li>{{ __('site.services.stay.f3') }}</li>
+            <li>{{ __('site.services.stay.f4') }}</li>
           </ul>
-          <button class="btn btn--gold btn--block" type="button" data-booking-open data-booking-type="Homestay">Book the Homestay</button>
+          <button class="btn btn--gold btn--block" type="button" data-booking-open data-booking-type="Homestay">{{ __('site.services.stay.cta') }}</button>
         </div>
       </article>
 
       <!-- Card 2 — Event Hall -->
       <article class="scard" data-reveal data-reveal-delay="1">
         <div class="scard__media">
-          <img src="{{ asset('images/moroseneng3.JPG') }}"
-               alt="Outdoor event setup with draped fabric, flowers and rows of chairs"
+          <img src="/images/moroseneng3.JPG"
+               alt="{{ __('site.services.event.img_alt') }}"
                loading="lazy" decoding="async" width="1000" height="667">
-          <span class="scard__tag">Up to 300 guests</span>
+          <span class="scard__tag">{{ __('site.services.event.tag') }}</span>
         </div>
         <div class="scard__body">
-          <h3 class="scard__title">A Special Event </h3>
-          <p>Celebrate your special day in a setting that's grand, nostalgic, and unmistakably kampung. Room enough for your event, your family, and your beloved guests.</p>
+          <h3 class="scard__title">{{ __('site.services.event.title') }}</h3>
+          <p>{{ __('site.services.event.body') }}</p>
           <ul class="feature-list">
-            <li>Engagement / Akad Nikah Ceremony</li>
-            <li>Family Day</li>
-            <li>Corporate Events</li>
-            <li>Open House</li>
+            <li>{{ __('site.services.event.f1') }}</li>
+            <li>{{ __('site.services.event.f2') }}</li>
+            <li>{{ __('site.services.event.f3') }}</li>
+            <li>{{ __('site.services.event.f4') }}</li>
           </ul>
-          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Event Hall">Book the Event</button>
+          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Event Hall">{{ __('site.services.event.cta') }}</button>
         </div>
       </article>
 
@@ -2263,8 +2483,8 @@ button {
 <section class="section why">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Our Uniqueness</p>
-      <h2 class="h2">More Than a Homestay. A Living Heritage.</h2>
+      <p class="eyebrow">{{ __('site.why.eyebrow') }}</p>
+      <h2 class="h2">{{ __('site.why.title') }}</h2>
     </header>
 
     <ul class="why__grid">
@@ -2272,29 +2492,29 @@ button {
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 3 2 11h3v10h14V11h3L12 3Z"/></svg>
         </span>
-        <h3>Grand, Antique Traditional Architecture House</h3>
-        <p>a genuine taste of the past, with modern comfort.</p>
+        <h3>{{ __('site.why.h1') }}</h3>
+        <p>{{ __('site.why.p1') }}</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="1">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M3 4h18v16H3z"/><path d="M3 10h18M9 20V10"/></svg>
         </span>
-        <h3>6 Spacious & Comfortable Bedrooms</h3>
-        <p>one of the largest traditional homestays around.</p>
+        <h3>{{ __('site.why.h2') }}</h3>
+        <p>{{ __('site.why.p2') }}</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="2">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
         </span>
-        <h3>Spacious, Flexible Event Grounds</h3>
-        <p>Specially designed with an under-house area and a spacious front yard for all events.</p>
+        <h3>{{ __('site.why.h3') }}</h3>
+        <p>{{ __('site.why.p3') }}</p>
       </li>
       <li class="why__item" data-reveal data-reveal-delay="3">
         <span class="why__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-7-10a7 7 0 0 1 14 0c0 5.4-7 10-7 10Z"/><circle cx="12" cy="11" r="2.6"/></svg>
         </span>
-        <h3>Surrounded by Natural Calm</h3>
-        <p>fresh air, greenery, true village stillness.</p>
+        <h3>{{ __('site.why.h4') }}</h3>
+        <p>{{ __('site.why.p4') }}</p>
       </li>
 
     </ul>
@@ -2308,21 +2528,20 @@ button {
   <div class="container">
     <div class="acc__head" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--light">Homestay Moro Seneng</p>
-        <h2 class="h2 h2--light">Everything is ready,<br>waiting for your arrival</h2>
+        <p class="eyebrow eyebrow--light">{{ __('site.acc.eyebrow') }}</p>
+        <h2 class="h2 h2--light">{!! __('site.acc.title_html') !!}</h2>
       </div>
       <p class="acc__note">
-        Enjoy a stay in a spacious, comfortable traditional wooden house surrounded by a peaceful natural setting.
-        Perfect for families, weddings, engagements, reunions and all kinds of special occasions.
+        {{ __('site.acc.note') }}
       </p>
     </div>
 
     <!-- Numbers count up once, only when they enter view -->
     <ul class="acc__stats" data-reveal>
-      <li><strong data-count="6" data-suffix="+">0</strong><span>Bedrooms</span></li>
-      <li><strong data-count="25" data-suffix="+">0</strong><span>Overnight Guests</span></li>
-      <li><strong data-count="200" data-suffix="+">0</strong><span>Event Capacity</span></li>
-      <li><strong data-count="30" data-suffix="+">0</strong><span>Parking Bays</span></li>
+      <li><strong data-count="6" data-suffix="+">0</strong><span>{{ __('site.acc.rooms') }}</span></li>
+      <li><strong data-count="25" data-suffix="+">0</strong><span>{{ __('site.acc.guests') }}</span></li>
+      <li><strong data-count="200" data-suffix="+">0</strong><span>{{ __('site.acc.capacity') }}</span></li>
+      <li><strong data-count="30" data-suffix="+">0</strong><span>{{ __('site.acc.parking') }}</span></li>
     </ul>
   </div>
 </section>
@@ -2440,60 +2659,32 @@ button {
      ===================================================================== -->
 <section class="marquee-sec" aria-labelledby="marqueeHead" id="galeri">
   <div class="container marquee-head" data-reveal>
-    <p class="eyebrow">Guest Gallery</p>
-    <h2 class="h2 marquee-title" id="marqueeHead">A Day at the Teratak</h2>
+    <p class="eyebrow">{{ __('site.marquee.eyebrow') }}</p>
+    <h2 class="h2 marquee-title" id="marqueeHead">{{ __('site.marquee.title') }}</h2>
   </div>
 
   <div class="marquee" id="marquee">
     <div class="marquee__track" id="marqueeTrack">
 
-      <button class="cslide" type="button" data-caption="The house at dusk">
-        <img src="{{ asset('images/moroseneng11.jpg') }}"
-             alt="Traditional house at dusk" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">BBQ Time</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="The veranda, a spot for evening chats">
-        <img src="{{ asset('images/moroseneng7.jpg') }}"
-             alt="Shaded wooden veranda" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">The traditional charm of the living room</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="The living room in the morning">
-        <img src="{{ asset('images/moroseneng9.jpg') }}"
-             alt="Living room with wooden flooring" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">The staircase, a favourite photo spot</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="Open grounds waiting for a tent">
-        <img src="{{ asset('images/moroseneng6.jpg') }}"
-             alt="Wide open grassy grounds" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Open grounds for gathering and events</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="Event decor beneath the shade of a tree">
-        <img src="{{ asset('images/moroseneng17.jpg') }}"
-             alt="Event decor with flowers" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">A cozy corner for conversations</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="Greenery bordering the grounds">
-        <img src="{{ asset('images/moroseneng14.jpg') }}"
-             alt="Tall trees surrounding the house grounds" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Engagement Ceremony</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="A peaceful bedroom">
-        <img src="{{ asset('images/moroseneng19.jpg') }}"
-             alt="Bedroom with a wooden bed" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Family Activity Area</span>
-      </button>
-
-      <button class="cslide" type="button" data-caption="Lights on after dusk">
-        <img src="{{ asset('images/moroseneng12.jpg') }}"
-             alt="Warm lamplight at night" loading="lazy" decoding="async" width="600" height="800">
-        <span class="cslide__cap">Night View</span>
-      </button>
+      {{-- Image file -> caption/alt key. Both come from lang/*/site.php so the
+           strip reads in the visitor's language; the lightbox reuses the same
+           caption rather than carrying a second, separate wording. --}}
+      @foreach ([
+          'moroseneng11.jpg' => 1,
+          'moroseneng7.jpg'  => 2,
+          'moroseneng9.jpg'  => 3,
+          'moroseneng6.jpg'  => 4,
+          'moroseneng17.jpg' => 5,
+          'moroseneng14.jpg' => 6,
+          'moroseneng19.jpg' => 7,
+          'moroseneng12.jpg' => 8,
+      ] as $file => $n)
+        <button class="cslide" type="button" data-caption="{{ __("site.marquee.cap_{$n}") }}">
+          <img src="/images/{{ $file }}"
+               alt="{{ __("site.marquee.alt_{$n}") }}" loading="lazy" decoding="async" width="600" height="800">
+          <span class="cslide__cap">{{ __("site.marquee.cap_{$n}") }}</span>
+        </button>
+      @endforeach
 
     </div>
   </div>
@@ -2510,22 +2701,20 @@ button {
   <div class="event__scrim" aria-hidden="true"></div>
 
   <div class="container event__content" data-reveal>
-    <p class="eyebrow eyebrow--light">Events &amp; Programmes</p>
-    <h2 class="h2 h2--light">Your special day,<br><em>set against this teratak</em></h2>
+    <p class="eyebrow eyebrow--light">{{ __('site.event.eyebrow') }}</p>
+    <h2 class="h2 h2--light">{!! __('site.event.title_html') !!}</h2>
     <p class="event__lead">
-      With open grounds directly in front of the house, 
-      Moro Seneng offers a flexible setting for ceremonies, gatherings and celebrations. 
-      From a simple family occasion to a larger event, the space can be arranged to suit your needs.
+      {{ __('site.event.lead') }}
     </p>
 
     <ul class="pills">
-      <li>Akad Nikah · Persanding · Engagement</li>
-      <li>Hari Raya Open House</li>
-      <li>Family Day · Corporate · Seminar</li>
+      <li>{{ __('site.event.pill_1') }}</li>
+      <li>{{ __('site.event.pill_2') }}</li>
+      <li>{{ __('site.event.pill_3') }}</li>
     </ul>
 
     <div class="event__actions">
-      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Event Hall">Book event dates</button>
+      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Event Hall">{{ __('site.event.cta') }}</button>
     </div>
   </div>
 </section>
@@ -2536,42 +2725,21 @@ button {
 <section class="section section--alt testimonials" id="testimoni">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">What Guests Say</p>
-      <h2 class="h2">Stories From Those Who've Stayed.</h2>
+      <p class="eyebrow">{{ __('site.testi.eyebrow') }}</p>
+      <h2 class="h2">{{ __('site.testi.title') }}</h2>
     </header>
 
     <div class="tgrid">
-      <figure class="tcard" data-reveal>
-        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
-        <blockquote><p>A beautiful traditional house. Our whole family loved staying
-          here — the kids played outside all weekend, and not one of them
-          touched their phone.</p></blockquote>
-        <figcaption>
-          <span class="tcard__avatar" aria-hidden="true">NH</span>
-          <span><strong>Puan Nurhaliza Abdullah</strong><small>Family stay &middot; Shah Alam</small></span>
-        </figcaption>
-      </figure>
-
-      <figure class="tcard" data-reveal data-reveal-delay="1">
-        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
-        <blockquote><p>The perfect place for our engagement ceremony. The grounds easily
-          fit all our guests, and the photos in front of the house turned out beautifully.</p></blockquote>
-        <figcaption>
-          <span class="tcard__avatar" aria-hidden="true">AF</span>
-          <span><strong>Encik Ahmad Faizal</strong><small>Engagement Ceremony &middot; Klang</small></span>
-        </figcaption>
-      </figure>
-
-      <figure class="tcard" data-reveal data-reveal-delay="2">
-        <div class="tcard__stars" role="img" aria-label="Rating 5 out of 5">★★★★★</div>
-        <blockquote><p>Peaceful, spacious and full of memories. We brought thirty people
-          for a family day, and the host helped take care of everything — right down to
-          the parking arrangements.</p></blockquote>
-        <figcaption>
-          <span class="tcard__avatar" aria-hidden="true">SR</span>
-          <span><strong>Cik Siti Rohani</strong><small>Family gathering &middot; Sungai Besar</small></span>
-        </figcaption>
-      </figure>
+      @foreach ([1 => 'NH', 2 => 'AF', 3 => 'SR'] as $n => $initials)
+        <figure class="tcard" data-reveal @if ($n > 1) data-reveal-delay="{{ $n - 1 }}" @endif>
+          <div class="tcard__stars" role="img" aria-label="{{ __('site.a11y.rating') }}">★★★★★</div>
+          <blockquote><p>{{ __("site.testi.q{$n}") }}</p></blockquote>
+          <figcaption>
+            <span class="tcard__avatar" aria-hidden="true">{{ $initials }}</span>
+            <span><strong>{{ __("site.testi.n{$n}") }}</strong><small>{{ __("site.testi.r{$n}") }}</small></span>
+          </figcaption>
+        </figure>
+      @endforeach
     </div>
   </div>
 </section>
@@ -2582,20 +2750,21 @@ button {
 <section class="section location" id="lokasi">
   <div class="container">
     <header class="section__head" data-reveal>
-      <p class="eyebrow">Our Location</p>
-      <h2 class="h2">From the Teratak, Explore the Area</h2>
+      <p class="eyebrow">{{ __('site.loc.eyebrow') }}</p>
+      <h2 class="h2">{{ __('site.loc.title') }}</h2>
     </header>
 
     <div class="location__grid">
       <div class="location__map" data-reveal>
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.268353868002!2d100.9482346756757!3d3.7516374491522644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cb5f002a7ae805%3A0x4025ed63b77f5f66!2sTeratak%20Moro%20Seneng!5e0!3m2!1sen!2smy!4v1785944602305!5m2!1sen!2smy"
-          title="Map showing the location of Teratak Moro Seneng in Sabak Bernam, Selangor"
+          {{-- The two !1s<lang>!2smy pairs are the map's own UI language. --}}
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.268353868002!2d100.9482346756757!3d3.7516374491522644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cb5f002a7ae805%3A0x4025ed63b77f5f66!2sTeratak%20Moro%20Seneng!5e0!3m2!1s{{ $locale }}!2smy!4v1785944602305!5m2!1s{{ $locale }}!2smy"
+          title="{{ __('site.a11y.map_title') }}"
           loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen></iframe>
 
         <div class="location__map-photo" aria-hidden="true">
-          <img src="{{ asset('images/moroseneng1.jpeg') }}" alt="" loading="lazy" decoding="async" width="200" height="200">
+          <img src="/images/moroseneng1.jpeg" alt="" loading="lazy" decoding="async" width="200" height="200">
         </div>
 
         <div class="location__map-pin" aria-hidden="true">
@@ -2604,39 +2773,39 @@ button {
       </div>
 
       <div class="location__nearby">
-        <p class="location__nearby-label" data-reveal>Nearby Attractions</p>
+        <p class="location__nearby-label" data-reveal>{{ __('site.loc.nearby') }}</p>
 
         <div class="nearby__grid">
           <div class="nearby__card nearby__card--beach" data-reveal>
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg>
             </span>
-            <h4>Pantai Bagan Nakhoda Omar</h4>
-            <p>Known as the "Bearded Tree Beach" — striking, unique mangrove roots lining the shoreline.</p>
+            <h4>{{ __('site.loc.n1_title') }}</h4>
+            <p>{{ __('site.loc.n1_body') }}</p>
           </div>
 
           <div class="nearby__card nearby__card--museum" data-reveal data-reveal-delay="1">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M3 10h18M4 10v10M8 10v10M12 10v10M16 10v10M20 10v10M2 21h20M3 10l9-6 9 6"/></svg>
             </span>
-            <h4>Muzium Sabak Bernam</h4>
-            <p>The local community's farming and fishing history, located on Jalan Pasar.</p>
+            <h4>{{ __('site.loc.n2_title') }}</h4>
+            <p>{{ __('site.loc.n2_body') }}</p>
           </div>
 
           <div class="nearby__card nearby__card--waterfront" data-reveal data-reveal-delay="2">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/></svg>
             </span>
-            <h4>Waterfront Sabak Bernam</h4>
-            <p>A riverside recreational park with a children's playground — perfect for families.</p>
+            <h4>{{ __('site.loc.n3_title') }}</h4>
+            <p>{{ __('site.loc.n3_body') }}</p>
           </div>
 
           <div class="nearby__card nearby__card--fireflies" data-reveal data-reveal-delay="3">
             <span class="nearby__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>
             </span>
-            <h4>Kuala Selangor Fireflies</h4>
-            <p>A night-time boat tour to see thousands of fireflies along the Selangor River.</p>
+            <h4>{{ __('site.loc.n4_title') }}</h4>
+            <p>{{ __('site.loc.n4_body') }}</p>
           </div>
         </div>
       </div>
@@ -2750,19 +2919,16 @@ button {
   </div>
 
   <div class="container cta__inner" data-reveal>
-    <p class="eyebrow eyebrow--light">Come Visit</p>
-    <h2 class="cta__title">Ready to Experience<br>Traditional Malay Hospitality?</h2>
+    <p class="eyebrow eyebrow--light">{{ __('site.cta.eyebrow') }}</p>
+    <h2 class="cta__title">{!! __('site.cta.title_html') !!}</h2>
 
     <!-- Invitation pantun — a traditional touch closing the page -->
     <p class="pantun">
-      Don't wait for your next celebration to experience it. 
-      A grand space, real heritage, and a warmth you won't find anywhere else 
-      — only at the Teratak.
-    </p>  
-
+      {{ __('site.cta.pantun') }}
+    </p>
 
     <div class="cta__actions">
-      <button class="btn btn--gold btn--lg" type="button" data-booking-open>Book Now</button>
+      <button class="btn btn--gold btn--lg" type="button" data-booking-open>{{ __('site.cta.button') }}</button>
       <!-- REPLACE: your real phone number -->
       <!-- <a class="btn btn--outline-light btn--lg" href="tel:+60133950231">Contact Us Now</a> -->
     </div>
@@ -2780,31 +2946,30 @@ button {
     <div class="footer__brand">
       <a class="brand brand--footer" href="#utama">
         <span class="brand__mark" aria-hidden="true">
-          <img src="{{ asset('images/logoMS.png') }}" alt="" width="68" height="48">
+          <img src="/images/logoMS.png" alt="" width="68" height="48">
         </span>
         <span class="brand__text">
           <span class="brand__name">Teratak Moro Seneng</span>
-          <span class="brand__sub">Homestay &amp; Event Hall</span>
+          <span class="brand__sub">{{ __('site.footer.brand_sub') }}</span>
         </span>
       </a>
       <p class="footer__blurb">
-        A traditional Malay house in Batu 38, Sabak Bernam — open to families,
-        couples getting married and companies looking for a calmer setting.
+        {{ __('site.footer.blurb') }}
       </p>
     </div>
 
     <div class="footer__col">
-      <h2 class="footer__head">Contact</h2>
+      <h2 class="footer__head">{{ __('site.footer.contact') }}</h2>
       <ul>
-        <li><a href="https://wa.me/60133950231" target="_blank" rel="noopener">Contact &middot; +60 13-395 0231</a></li>
+        <li><a href="https://wa.me/60133950231" target="_blank" rel="noopener">{{ __('site.footer.phone') }}</a></li>
         <li><a href="mailto:salam@teratakmoroseneng.com">salam@teratakmoroseneng.com</a></li>
       </ul>
     </div>
   </div>
 
   <div class="container footer__bar">
-    <p>&copy; <span id="year">2026</span> Teratak Moro Seneng. All rights reserved.</p>
-    <p>Batu 38, Sabak Bernam, Selangor, Malaysia</p>
+    <p>&copy; <span id="year">2026</span> {{ __('site.footer.rights') }}</p>
+    <p>{{ __('site.footer.address') }}</p>
   </div>
 </footer>
 
@@ -2812,15 +2977,15 @@ button {
      FLOATING ACTION BUTTONS
      ===================================================================== -->
 <a class="fab fab--wa" id="fabWa"
-   href="https://wa.me/60133950231?text=Assalamualaikum%20Teratak%20Moro%20Seneng%2C%20I%20would%20like%20to%20ask%20about%20booking."
-   target="_blank" rel="noopener" aria-label="Chat with us">
+   href="https://wa.me/60133950231?text={{ rawurlencode(__('site.booking.wa_intro')) }}"
+   target="_blank" rel="noopener" aria-label="{{ __('site.a11y.chat_with_us') }}">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.5 3.75 1.4 5.32L2 22l4.98-1.55a9.9 9.9 0 0 0 5.06 1.38h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 13.9c-.24.68-1.4 1.3-1.94 1.34-.5.05-1.13.07-1.82-.11-.42-.11-.96-.29-1.66-.59-2.92-1.26-4.82-4.2-4.97-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.58-.36.77-.36l.55.01c.18 0 .42-.07.65.5.24.58.82 2.01.9 2.16.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.15-.29.31-.13.6.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.09 1.69.79 1.98.94.29.14.48.22.55.34.07.12.07.69-.17 1.36Z"/>
   </svg>
-  <span class="fab__label">Contact us</span>
+  <span class="fab__label">{{ __('site.footer.wa_label') }}</span>
 </a>
 
-<button class="fab fab--top" id="backToTop" type="button" aria-label="Back to top">
+<button class="fab fab--top" id="backToTop" type="button" aria-label="{{ __('site.a11y.back_to_top') }}">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
@@ -2829,54 +2994,91 @@ button {
      ===================================================================== -->
 <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" hidden>
   <div class="booking-modal__panel">
-    <button class="booking-modal__close" id="bookingClose" type="button" aria-label="Close booking form">&times;</button>
+    <button class="booking-modal__close" id="bookingClose" type="button" aria-label="{{ __('site.a11y.close_booking') }}">&times;</button>
 
-    <h3 class="booking-modal__title" id="bookingTitle">Booking Form</h3>
-    <p class="booking-modal__note">Fill in the details below — we'll contact you to confirm your booking.</p>
+    <h3 class="booking-modal__title" id="bookingTitle">{{ __('site.booking.title') }}</h3>
+    <p class="booking-modal__note" id="bookingNote">{{ __('site.booking.note') }}</p>
 
     <form id="bookingForm" class="booking-form">
       <div class="booking-form__field">
-        <label for="bkName">Name</label>
-        <input type="text" id="bkName" name="name" required placeholder="Your full name">
+        <label for="bkName">{{ __('site.booking.name') }}</label>
+        <input type="text" id="bkName" name="name" required placeholder="{{ __('site.booking.name_ph') }}">
       </div>
 
       <div class="booking-form__field">
-        <span class="booking-form__label">Booking type</span>
+        <span class="booking-form__label">{{ __('site.booking.type') }}</span>
+        {{-- The values stay English on purpose: they are written straight into
+             the Google Sheet, which must read the same whichever language the
+             guest booked in. Only the visible label is translated. --}}
         <div class="booking-form__radios">
           <label class="booking-radio">
             <input type="radio" name="type" value="Event Hall" checked>
-            <span>Event Hall</span>
+            <span>{{ __('site.booking.event_hall') }}</span>
           </label>
           <label class="booking-radio">
             <input type="radio" name="type" value="Homestay">
-            <span>Homestay</span>
+            <span>{{ __('site.booking.homestay') }}</span>
           </label>
+        </div>
+      </div>
+
+      <div class="booking-form__field">
+        <span class="booking-form__label">{{ __('site.booking.choose_dates') }}</span>
+        <div class="booking-cal" id="bkCal">
+          <div class="booking-cal__head">
+            <button type="button" class="booking-cal__nav" id="bkCalPrev" aria-label="{{ __('site.a11y.prev_month') }}">&#8249;</button>
+            <span class="booking-cal__month" id="bkCalMonth">&mdash;</span>
+            <button type="button" class="booking-cal__nav" id="bkCalNext" aria-label="{{ __('site.a11y.next_month') }}">&#8250;</button>
+          </div>
+          <div class="booking-cal__grid" id="bkCalGrid"></div>
+          <div class="booking-cal__legend">
+            <span><i class="k-open"></i> {{ __('site.booking.legend_open') }}</span>
+            <span><i class="k-booked"></i> {{ __('site.booking.legend_booked') }}</span>
+            <span><i class="k-sel"></i> {{ __('site.booking.legend_pick') }}</span>
+          </div>
+          <p class="booking-cal__status" id="bkCalStatus">{{ __('site.booking.js.loading') }}</p>
         </div>
       </div>
 
       <div class="booking-form__row">
         <div class="booking-form__field">
-          <label for="bkFrom">From date</label>
-          <input type="date" id="bkFrom" name="from" required>
+          <label for="bkFrom">{{ __('site.booking.from') }}</label>
+          <input type="text" id="bkFrom" name="from" required readonly placeholder="{{ __('site.booking.date_ph') }}">
         </div>
         <div class="booking-form__field">
-          <label for="bkTo">To date</label>
-          <input type="date" id="bkTo" name="to" required>
+          <label for="bkTo">{{ __('site.booking.to') }}</label>
+          <input type="text" id="bkTo" name="to" required readonly placeholder="{{ __('site.booking.date_ph') }}">
         </div>
       </div>
 
-      <button class="btn btn--gold btn--block" type="submit">Submit Booking</button>
+      <button class="btn btn--gold btn--block" type="submit">{{ __('site.booking.submit') }}</button>
     </form>
+
+    <!-- Swapped in once the request has been sent -->
+    <div class="booking-done" id="bookingDone" hidden>
+      <span class="booking-done__mark" aria-hidden="true">&check;</span>
+      <h4 class="booking-done__title">{{ __('site.booking.done_title') }}</h4>
+      <p class="booking-done__text">
+        {!! __('site.booking.done_text_html') !!}
+      </p>
+      <p class="booking-done__pending">
+        {!! __('site.booking.done_pending_html') !!}
+      </p>
+      <a class="btn btn--green btn--block" id="bkDoneWa" href="#" target="_blank" rel="noopener">
+        {{ __('site.booking.done_wa') }}
+      </a>
+      <button class="btn btn--wood btn--block" type="button" id="bkDoneClose">{{ __('site.booking.done_close') }}</button>
+    </div>
   </div>
 </div>
 
 <!-- =====================================================================
      LIGHTBOX
      ===================================================================== -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
-  <button class="lightbox__close" id="lbClose" type="button" aria-label="Close image viewer">&times;</button>
-  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="Previous image">&#8249;</button>
-  <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="Next image">&#8250;</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="{{ __('site.a11y.image_viewer') }}" hidden>
+  <button class="lightbox__close" id="lbClose" type="button" aria-label="{{ __('site.a11y.close_viewer') }}">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="{{ __('site.a11y.prev_image') }}">&#8249;</button>
+  <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="{{ __('site.a11y.next_image') }}">&#8250;</button>
   <figure class="lightbox__figure">
     <img id="lbImage" src="" alt="">
     <figcaption id="lbCaption"></figcaption>
@@ -2928,6 +3130,11 @@ button {
   /* The placeholder values currently written into index.html */
   var WA_PLACEHOLDER  = '60123456789';
   var TEL_PLACEHOLDER = '+60123456789';
+
+  /* Every string this script writes to the screen, already in the visitor's
+     language. Edit the wording in lang/{en,ms}/site.php, not here — the
+     object itself is assembled in the @php block at the top of this file. */
+  var T = @json($js);
 
   var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) {
@@ -2992,7 +3199,7 @@ button {
       if (!menu || !toggle) return;
       menu.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Open menu');
+      toggle.setAttribute('aria-label', T.openMenu);
       document.body.classList.remove('is-locked');
     };
 
@@ -3000,7 +3207,7 @@ button {
       toggle.addEventListener('click', function () {
         var open = menu.classList.toggle('is-open');
         toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        toggle.setAttribute('aria-label', open ? T.closeMenu : T.openMenu);
         document.body.classList.toggle('is-locked', open);
       });
 
@@ -3328,7 +3535,19 @@ button {
     var btnClose = $('#bookingClose');
     var fromIn   = $('#bkFrom');
     var toIn     = $('#bkTo');
+    var note     = $('#bookingNote');
+    var title    = $('#bookingTitle');
+    var done     = $('#bookingDone');
     if (!modal || !form || !btnOpen.length) return;
+
+    /* The panel has two faces: the form, and the "request sent" receipt. */
+    var showDone = function (on) {
+      form.hidden = on;
+      note.hidden = on;
+      done.hidden = !on;
+      title.textContent = on ? T.doneTitle : T.bookTitle;
+      modal.querySelector('.booking-modal__panel').scrollTop = 0;
+    };
 
     var opener = null;
 
@@ -3341,7 +3560,7 @@ button {
       navMenu.classList.remove('is-open');
       if (navToggle) {
         navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.setAttribute('aria-label', 'Open menu');
+        navToggle.setAttribute('aria-label', T.openMenu);
       }
     };
 
@@ -3356,10 +3575,12 @@ button {
         if (radio) radio.checked = true;
       }
 
+      showDone(false);
       modal.hidden = false;
       document.body.classList.add('is-locked');
       requestAnimationFrame(function () { modal.classList.add('is-open'); });
       $('#bkName').focus();
+      loadBooked();
     };
 
     var close = function () {
@@ -3381,16 +3602,205 @@ button {
       if (e.key === 'Escape') close();
     });
 
-    /* The "to" date cannot be before the "from" date */
-    fromIn.addEventListener('change', function () {
-      toIn.min = fromIn.value;
-      if (toIn.value && toIn.value < fromIn.value) toIn.value = fromIn.value;
-    });
+    /* -----------------------------------------------------------------
+       Availability calendar.
+       "Booked" dates come from the Google Sheet: the owner sets a row's
+       "status" column to "confirmed" and the Apps Script doGet returns
+       those rows as [{ from, to }]. Everything not confirmed stays open.
+       ----------------------------------------------------------------- */
+    var calGrid   = $('#bkCalGrid');
+    var calMonth  = $('#bkCalMonth');
+    var calPrev   = $('#bkCalPrev');
+    var calNext   = $('#bkCalNext');
+    var calStatus = $('#bkCalStatus');
+
+    var MS_DAY       = 86400000;
+    var bookedDays   = {};      /* { 'yyyy-mm-dd': true } — one entry per blocked day */
+    var loadedAt     = 0;       /* when we last heard from the sheet (0 = never) */
+    var loading      = false;
+    var BOOKED_TTL   = 60000;   /* re-check at most once a minute per tab */
+    var view         = startOfMonth(new Date());
+    var selStart     = null;
+    var selEnd       = null;
+
+    function pad2(n)        { return (n < 10 ? '0' : '') + n; }
+    function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+    function today0()       { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+    function iso(d)         { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+    function parseIso(s) {
+      var p = String(s).slice(0, 10).split('-');
+      return new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1);
+    }
+
+    function addBookedRange(fromStr, toStr) {
+      if (!fromStr) return;
+      var a = parseIso(fromStr);
+      var b = toStr ? parseIso(toStr) : a;
+      if (b < a) { var t = a; a = b; b = t; }
+      for (var d = new Date(a); d <= b; d = new Date(d.getTime() + MS_DAY)) {
+        bookedDays[iso(d)] = true;
+      }
+    }
+
+    function rangeHasBooked(a, b) {
+      for (var d = new Date(a); d <= b; d = new Date(d.getTime() + MS_DAY)) {
+        if (bookedDays[iso(d)]) return true;
+      }
+      return false;
+    }
+
+    function loadBooked() {
+      renderCal();
+      if (!SHEET_WEBAPP_URL) { calStatus.textContent = T.redBooked; return; }
+      if (loading) return;
+
+      /* Re-check on every open once the cached copy is stale, otherwise a tab
+         left open all day keeps showing dates the owner has since confirmed. */
+      if (loadedAt && (Date.now() - loadedAt) < BOOKED_TTL) return;
+
+      loading = true;
+      if (!loadedAt) calStatus.textContent = T.loading;
+
+      /* Read as text first: when the Web App isn't deployed as a new version,
+         or isn't shared with "Anyone", Apps Script answers with an HTML error
+         or login page rather than JSON. Parsing it by hand lets us say so. */
+      fetch(SHEET_WEBAPP_URL, { method: 'GET' })
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          var rows;
+          try {
+            rows = JSON.parse(text);
+          } catch (err) {
+            throw new Error('Web App did not return JSON. It sent: ' + text.slice(0, 200));
+          }
+          if (!Array.isArray(rows)) {
+            throw new Error('Expected an array of bookings, got: ' + text.slice(0, 200));
+          }
+
+          /* Rebuild from scratch, never merge — otherwise a booking the owner
+             cancels would stay blocked until the page is reloaded. */
+          bookedDays = {};
+          rows.forEach(function (row) { addBookedRange(row.from, row.to); });
+          loadedAt = Date.now();
+
+          /* Debug hook — inspect window.__moroBooked in the browser console. */
+          window.__moroBooked = { rows: rows, days: Object.keys(bookedDays).sort() };
+          console.log('[booking] ' + rows.length + ' confirmed booking(s) -> ' +
+                      window.__moroBooked.days.length + ' blocked day(s)',
+                      window.__moroBooked.days);
+
+          calStatus.textContent = rows.length ? T.redBooked : T.allOpen;
+          renderCal();
+        })
+        .catch(function (err) {
+          console.error('[booking] could not load availability from the Google Sheet.\n' +
+                        'URL: ' + SHEET_WEBAPP_URL + '\n', err);
+          calStatus.textContent = T.loadFailed;
+        })
+        .then(function () { loading = false; });   /* runs after both branches */
+    }
+
+    function renderCal() {
+      if (!calGrid) return;
+      var y = view.getFullYear();
+      var m = view.getMonth();
+      var t0 = today0();
+
+      calMonth.textContent = view.toLocaleDateString(T.dateLocale, { month: 'long', year: 'numeric' });
+      calPrev.disabled = view <= startOfMonth(t0);
+
+      var startDow    = (new Date(y, m, 1).getDay() + 6) % 7;   /* Monday = 0 */
+      var daysInMonth = new Date(y, m + 1, 0).getDate();
+
+      var html = T.dow.map(function (d) {
+        return '<span class="booking-cal__dow">' + d + '</span>';
+      }).join('');
+
+      for (var i = 0; i < startDow; i++) {
+        html += '<span class="booking-cal__day is-empty"></span>';
+      }
+
+      for (var day = 1; day <= daysInMonth; day++) {
+        var date = new Date(y, m, day);
+        var key  = iso(date);
+        var cls  = 'booking-cal__day';
+        var off  = false;
+
+        if (date < t0)            { cls += ' is-past';   off = true; }
+        else if (bookedDays[key]) { cls += ' is-booked'; off = true; }
+
+        if (selStart && selEnd) {
+          if (+date === +selStart) cls += ' is-range-start';
+          else if (+date === +selEnd) cls += ' is-range-end';
+          else if (date > selStart && date < selEnd) cls += ' is-in-range';
+        } else if (selStart && +date === +selStart) {
+          cls += ' is-selected';
+        }
+
+        html += '<button type="button" class="' + cls + '" data-date="' + key + '"' +
+                (off ? ' disabled' : '') + '>' + day + '</button>';
+      }
+
+      calGrid.innerHTML = html;
+    }
+
+    function calReset() {
+      selStart = null;
+      selEnd   = null;
+      view     = startOfMonth(new Date());
+      fromIn.value = '';
+      toIn.value   = '';
+      renderCal();
+    }
+
+    function pickDate(dateStr) {
+      var date = parseIso(dateStr);
+
+      if (!selStart || (selStart && selEnd)) {
+        selStart = date;
+        selEnd   = null;
+      } else if (date <= selStart) {
+        selStart = date;
+        selEnd   = null;
+      } else if (rangeHasBooked(new Date(selStart.getTime() + MS_DAY), date)) {
+        calStatus.textContent = T.crosses;
+        selEnd = null;
+        renderCal();
+        return;
+      } else {
+        selEnd = date;
+      }
+
+      fromIn.value = selStart ? iso(selStart) : '';
+      toIn.value   = selEnd ? iso(selEnd) : (selStart ? iso(selStart) : '');
+
+      if (selStart && !selEnd) {
+        calStatus.textContent = T.pickEnd;
+      } else if (selStart && selEnd) {
+        calStatus.textContent = T.selected + ' ' + iso(selStart) + '  →  ' + iso(selEnd);
+      }
+      renderCal();
+    }
+
+    if (calGrid) {
+      calGrid.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-date]');
+        if (btn && !btn.disabled) pickDate(btn.dataset.date);
+      });
+      calPrev.addEventListener('click', function () {
+        view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+        renderCal();
+      });
+      calNext.addEventListener('click', function () {
+        view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+        renderCal();
+      });
+    }
 
     var formatTarikh = function (iso) {
       if (!iso) return '';
       var d = new Date(iso + 'T00:00:00');
-      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      return d.toLocaleDateString(T.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
     };
 
     /* Send the booking row to Google Sheets via the Apps Script Web App.
@@ -3411,18 +3821,40 @@ button {
       var from = form.from.value;
       var to   = form.to.value;
 
-      saveToSheet({ name: name, type: type, from: from, to: to });
+      if (!from || !to) {
+        calStatus.textContent = T.pickFirst;
+        return;
+      }
 
-      var message =
-        'Assalamualaikum Teratak Moro Seneng, I would like to make a booking.\n' +
-        'Name: ' + name + '\n' +
-        'Type: ' + type + '\n' +
-        'Date: ' + formatTarikh(from) + ' - ' + formatTarikh(to);
+      saveToSheet({ name: name, type: type, from: from, to: to, status: 'pending' });
 
-      window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(message), '_blank', 'noopener');
-      close();
+      /* The template and its :placeholders come from the lang files. The row
+         saved above keeps the English type; the message shows the label the
+         guest actually read on screen. */
+      var message = T.waRequest
+        .replace(':name', name)
+        .replace(':type', T.types[type] || type)
+        .replace(':date', formatTarikh(from) + ' - ' + formatTarikh(to));
+
+      var waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(message);
+
+      /* Fill in the receipt, then swap the form out for it. The WhatsApp
+         button stays on screen as a fallback, because window.open is often
+         swallowed by a popup blocker on mobile. */
+      $('#bkDoneName').textContent  = name;
+      $('#bkDoneDates').textContent = formatTarikh(from) === formatTarikh(to)
+        ? formatTarikh(from)
+        : formatTarikh(from) + ' – ' + formatTarikh(to);
+      $('#bkDoneWa').href = waLink;
+
+      window.open(waLink, '_blank', 'noopener');
+
       form.reset();
+      calReset();
+      showDone(true);
     });
+
+    $('#bkDoneClose').addEventListener('click', close);
   })();
 
 
