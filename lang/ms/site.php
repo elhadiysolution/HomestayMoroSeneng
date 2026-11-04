@@ -272,7 +272,7 @@ return [
         'type'         => 'Jenis tempahan',
         'event_hall'   => 'Ruang Acara',
         'homestay'     => 'Penginapan',
-        'package'      => 'Pakej Tapak + Penginapan',
+        'package'      => 'Ruang Acara + Penginapan',
         'choose_dates' => 'Pilih tarikh anda',
         'legend_open'  => 'Kosong',
         'legend_booked' => 'Ditempah',
