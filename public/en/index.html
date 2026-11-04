@@ -2390,7 +2390,7 @@ button {
         <span class="hero__picker-glide" aria-hidden="true"></span>
         <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Event Hall">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/></svg>
-          Event Hall
+          Event Space
         </button>
         <button class="hero__picker-opt" type="button" data-booking-open data-booking-type="Homestay">
           <svg class="hero__picker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/></svg>
@@ -2495,7 +2495,7 @@ button {
             <li>Corporate Events</li>
             <li>Open House</li>
           </ul>
-          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Event Hall">Book the Event</button>
+          <button class="btn btn--green btn--block" type="button" data-booking-open data-booking-type="Event Hall">Book the Space</button>
         </div>
       </article>
 
@@ -2762,7 +2762,7 @@ button {
     </ul>
 
     <div class="event__actions">
-      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Event Hall">Book event dates</button>
+      <button class="btn btn--gold" type="button" data-booking-open data-booking-type="Event Hall">Book the dates</button>
     </div>
   </div>
 </section>
@@ -3073,7 +3073,7 @@ button {
         <div class="booking-form__radios">
           <label class="booking-radio">
             <input type="radio" name="type" value="Event Hall" checked>
-            <span>Event Hall</span>
+            <span>Event Space</span>
           </label>
           <label class="booking-radio">
             <input type="radio" name="type" value="Homestay">
@@ -3081,7 +3081,7 @@ button {
           </label>
           <label class="booking-radio booking-radio--wide">
             <input type="radio" name="type" value="Event Hall + Homestay">
-            <span>Hall + Homestay Package</span>
+            <span>Space + Homestay Package</span>
           </label>
         </div>
       </div>
@@ -3208,7 +3208,7 @@ button {
   /* Every string this script writes to the screen, already in the visitor's
      language. Edit the wording in lang/{en,ms}/site.php, not here — the
      object itself is assembled in the @php block at the top of this file. */
-  var T = {"openMenu":"Open menu","closeMenu":"Close menu","bookTitle":"Request a Booking","doneTitle":"Request sent","loading":"Loading availability\u2026","redBooked":"Red dates are already booked.","allOpen":"All dates are currently open.","loadFailed":"Could not load availability \u2014 we will confirm your dates by WhatsApp.","crosses":"That range crosses a booked date \u2014 please pick again.","pickEnd":"Now pick your check-out \/ end date.","selected":"Selected","pickFirst":"Please pick your dates on the calendar first.","dow":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"dateLocale":"en-GB","waRequest":"Assalamualaikum Teratak Moro Seneng, I would like to REQUEST a booking (pending your confirmation).\nName: :name\nType: :type\nDate: :date","waEstimate":"\nEstimated price: :total","currency":"RM","day":"day","days":"days","night":"night","nights":"nights","types":{"Event Hall":"Event Hall","Homestay":"Homestay","Event Hall + Homestay":"Hall + Homestay Package"}};
+  var T = {"openMenu":"Open menu","closeMenu":"Close menu","bookTitle":"Request a Booking","doneTitle":"Request sent","loading":"Loading availability\u2026","redBooked":"Red dates are already booked.","allOpen":"All dates are currently open.","loadFailed":"Could not load availability \u2014 we will confirm your dates by WhatsApp.","crosses":"That range crosses a booked date \u2014 please pick again.","pickEnd":"Now pick your check-out \/ end date.","selected":"Selected","pickFirst":"Please pick your dates on the calendar first.","dow":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"dateLocale":"en-GB","waRequest":"Assalamualaikum Teratak Moro Seneng, I would like to REQUEST a booking (pending your confirmation).\nName: :name\nType: :type\nDate: :date","waEstimate":"\nEstimated price: :total","currency":"RM","day":"day","days":"days","night":"night","nights":"nights","types":{"Event Hall":"Event Space","Homestay":"Homestay","Event Hall + Homestay":"Space + Homestay Package"}};
 
   var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) {

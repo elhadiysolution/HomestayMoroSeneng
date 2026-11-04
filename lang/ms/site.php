@@ -60,9 +60,9 @@ return [
     'nav' => [
         'brand_sub' => 'Sabak Bernam · Selangor',
         'about'     => 'Tentang Kami',
-        'homestay'  => 'Homestay',
+        'homestay'  => 'Penginapan',
         'gallery'   => 'Galeri',
-        'events'    => 'Majlis',
+        'events'    => 'Ruang Acara',
         'location'  => 'Lokasi',
         'contact'   => 'Hubungi Kami',
     ],
@@ -75,7 +75,7 @@ return [
         'title_html' => 'Rumah Tradisional Yang Megah, Warisan Yang Hidup<br>',
         'lead'       => 'Terletak di Batu 38, Sabak Bernam, Teratak Moro Seneng ialah sebuah rumah kayu Melayu tradisional yang menyatukan warisan, keramahan dan kemesraan. Bermalam bersama keluarga, berkumpul bersama orang tersayang, atau raikan detik istimewa hidup anda dalam suasana yang tiada tandingannya.',
         'img_alt'    => 'Rumah Melayu tradisional beratap tinggi dikelilingi pokok kelapa ketika senja',
-        'event_hall' => 'Dewan Majlis',
+        'event_hall' => 'Ruang Acara',
         'homestay'   => 'Penginapan',
         'fact_rooms' => 'Bilik Tidur',
         'fact_guests' => 'Tetamu Bermalam',
@@ -112,7 +112,7 @@ return [
             'f2'      => '6 bilik tidur yang selesa',
             'f3'      => 'Dapur lengkap',
             'f4'      => 'Tempat letak kereta yang luas',
-            'cta'     => 'Tempah Penginapan',
+            'cta'     => 'Tempah Penginapan Anda',
             'img_alt' => 'Bahagian luar penginapan dengan tangga kayu dan beranda yang teduh',
         ],
 
@@ -122,10 +122,10 @@ return [
             'body'    => 'Raikan hari istimewa anda dalam suasana yang megah, nostalgik dan sungguh berbau kampung. Cukup luas untuk majlis anda, keluarga anda dan para tetamu yang dikasihi.',
             'f1'      => 'Majlis Pertunangan / Akad Nikah',
             'f2'      => 'Hari Keluarga',
-            'f3'      => 'Majlis Korporat',
+            'f3'      => 'Acara Korporat',
             'f4'      => 'Rumah Terbuka',
-            'cta'     => 'Tempah Majlis',
-            'img_alt' => 'Persiapan majlis di luar dengan kain labuh, bunga dan deretan kerusi',
+            'cta'     => 'Tempah Ruang Anda',
+            'img_alt' => 'Persiapan Acara di luar dengan kain labuh, bunga dan deretan kerusi',
         ],
     ],
 
@@ -154,7 +154,7 @@ return [
         'note'       => 'Nikmati penginapan di rumah kayu tradisional yang luas dan selesa, dikelilingi suasana alam yang damai. Sesuai untuk keluarga, majlis perkahwinan, pertunangan, reunion dan pelbagai majlis istimewa.',
         'rooms'      => 'Bilik Tidur',
         'guests'     => 'Tetamu Bermalam',
-        'capacity'   => 'Kapasiti Majlis',
+        'capacity'   => 'Kapasiti Acara',
         'parking'    => 'Petak Letak Kereta',
     ],
 
@@ -188,13 +188,13 @@ return [
     /* Sepanduk majlis                                                   */
     /* ---------------------------------------------------------------- */
     'event' => [
-        'eyebrow'    => 'Majlis & Program',
+        'eyebrow'    => 'Acara & Program',
         'title_html' => 'Hari istimewa anda,<br><em>berlatarkan teratak ini</em>',
-        'lead'       => 'Dengan kawasan lapang tepat di hadapan rumah, Moro Seneng menawarkan ruang yang fleksibel untuk upacara, perhimpunan dan majlis. Daripada majlis keluarga yang sederhana hinggalah ke majlis yang lebih besar, ruangnya boleh disusun mengikut keperluan anda.',
+        'lead'       => 'Dengan kawasan lapang tepat di hadapan rumah, Moro Seneng menawarkan ruang yang fleksibel untuk upacara, perhimpunan dan acara. Daripada acara keluarga yang sederhana hinggalah ke acara yang lebih besar, ruangnya boleh disusun mengikut keperluan anda.',
         'pill_1'     => 'Akad Nikah · Persandingan · Pertunangan',
         'pill_2'     => 'Rumah Terbuka Hari Raya',
         'pill_3'     => 'Hari Keluarga · Korporat · Seminar',
-        'cta'        => 'Tempah tarikh majlis',
+        'cta'        => 'Tempah tarikh Anda',
     ],
 
     /* ---------------------------------------------------------------- */
@@ -270,9 +270,9 @@ return [
         'name'         => 'Nama',
         'name_ph'      => 'Nama penuh anda',
         'type'         => 'Jenis tempahan',
-        'event_hall'   => 'Dewan Majlis',
-        'homestay'     => 'Homestay',
-        'package'      => 'Pakej Dewan + Homestay',
+        'event_hall'   => 'Ruang Acara',
+        'homestay'     => 'Penginapan',
+        'package'      => 'Pakej Tapak + Penginapan',
         'choose_dates' => 'Pilih tarikh anda',
         'legend_open'  => 'Kosong',
         'legend_booked' => 'Ditempah',
