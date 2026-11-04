@@ -81,8 +81,9 @@ var PRICE_KINDS = {
   'perayaan': 'special', 'holiday': 'special'
 };
 
-/* "Jenis" values in the price tab. "Semua" / blank = applies to both. */
-var PRICE_TYPES = ['Homestay', 'Event Hall', 'Semua'];
+/* "Jenis" values in the price tab. "Semua" / blank = applies to all three.
+   These must match the website's booking-type values exactly. */
+var PRICE_TYPES = ['Homestay', 'Event Hall', 'Event Hall + Homestay', 'Semua'];
 
 /* The only values the Status column accepts. Only "confirmed" blocks a date. */
 var STATUS_VALUES = ['pending', 'confirmed', 'cancelled'];
@@ -305,11 +306,13 @@ function setupPriceSheet() {
     /* Example rows — change the numbers to your real prices.
        No dates = the normal (default) price, used all year.
        With dates = a season that replaces the default for those days. */
-    sheet.getRange(2, 1, 8, 6).setValues([
+    sheet.getRange(2, 1, 10, 6).setValues([
       ['Homestay',   'weekday', '',           '',           250,  ''],
       ['Homestay',   'weekend', '',           '',           350,  ''],
       ['Event Hall', 'default', '',           '',           1500, ''],
       ['Event Hall', 'weekend', '',           '',           2000, ''],
+      ['Event Hall + Homestay', 'weekday', '', '',          1600, 'Pakej'],
+      ['Event Hall + Homestay', 'weekend', '', '',          2200, 'Pakej'],
       ['Homestay',   'season',  '2026-11-21', '2027-01-03', 320,  'Cuti sekolah'],
       ['Homestay',   'weekend', '2026-11-21', '2027-01-03', 420,  'Cuti sekolah'],
       ['Semua',      'special', '2026-12-24', '2026-12-26', 450,  'Krismas'],
@@ -327,7 +330,8 @@ function setupPriceSheet() {
     sheet.getRange(2, idx.type + 1, rows, 1).setDataValidation(
       SpreadsheetApp.newDataValidation()
         .requireValueInList(PRICE_TYPES, true).setAllowInvalid(false)
-        .setHelpText('Homestay / Event Hall / Semua (= both)').build());
+        .setHelpText('Homestay / Event Hall / Event Hall + Homestay (pakej, dikira ikut malam) / ' +
+                     'Semua (= semua jenis)').build());
   }
   if (idx.kind > -1) {
     sheet.getRange(2, idx.kind + 1, rows, 1).setDataValidation(

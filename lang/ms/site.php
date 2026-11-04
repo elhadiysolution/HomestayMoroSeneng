@@ -272,6 +272,7 @@ return [
         'type'         => 'Jenis tempahan',
         'event_hall'   => 'Dewan Majlis',
         'homestay'     => 'Homestay',
+        'package'      => 'Pakej Dewan + Homestay',
         'choose_dates' => 'Pilih tarikh anda',
         'legend_open'  => 'Kosong',
         'legend_booked' => 'Ditempah',
@@ -279,7 +280,7 @@ return [
         'legend_low'   => 'Harga terendah',
         'legend_special' => 'Harga khas / cuti',
         'estimate'     => 'Anggaran harga',
-        'estimate_note' => 'Harga sehari tertera pada kalendar. Harga akhir disahkan melalui WhatsApp.',
+        'estimate_note' => 'Homestay dan Pakej dikira ikut malam (hari keluar tidak dikira), Dewan Majlis ikut hari. Harga akhir disahkan melalui WhatsApp.',
         'from'         => 'Tarikh mula',
         'to'           => 'Tarikh tamat',
         'date_ph'      => 'Pilih pada kalendar',
@@ -306,6 +307,8 @@ return [
             'currency'     => 'RM',
             'day'          => 'hari',
             'days'         => 'hari',
+            'night'        => 'malam',
+            'nights'       => 'malam',
         ],
 
         /* Mesej WhatsApp pra-isi. :name / :type / :date akan digantikan. */

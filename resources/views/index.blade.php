@@ -62,11 +62,14 @@
         'currency'   => __('site.booking.js.currency'),
         'day'        => __('site.booking.js.day'),
         'days'       => __('site.booking.js.days'),
+        'night'      => __('site.booking.js.night'),
+        'nights'     => __('site.booking.js.nights'),
 
         /* Sheet value -> label the guest sees. Keys match the radio values. */
         'types' => [
             'Event Hall' => __('site.booking.event_hall'),
             'Homestay'   => __('site.booking.homestay'),
+            'Event Hall + Homestay' => __('site.booking.package'),
         ],
     ];
 @endphp
@@ -1402,7 +1405,8 @@ button {
 }
 .booking-form input:focus-visible { border-color: var(--gold); }
 
-.booking-form__radios { display: flex; gap: .75rem; }
+.booking-form__radios { display: flex; flex-wrap: wrap; gap: .75rem; }
+.booking-radio--wide { flex-basis: 100%; }
 .booking-radio {
   flex: 1;
   display: flex;
@@ -3073,6 +3077,10 @@ button {
             <input type="radio" name="type" value="Homestay">
             <span>{{ __('site.booking.homestay') }}</span>
           </label>
+          <label class="booking-radio booking-radio--wide">
+            <input type="radio" name="type" value="Event Hall + Homestay">
+            <span>{{ __('site.booking.package') }}</span>
+          </label>
         </div>
       </div>
 
@@ -3682,7 +3690,8 @@ button {
     var MS_DAY       = 86400000;
     var bookedDays   = {};      /* { 'yyyy-mm-dd': true } — one entry per blocked day */
     /* Prices from the sheet's "Harga" tab: { weekendDays: [6,0], rules: [...] }.
-       Each rule: { type: 'Homestay'|'Event Hall'|'' (=both), kind: weekday|weekend|special,
+       Each rule: { type: 'Homestay'|'Event Hall'|'Event Hall + Homestay'|'' (=all),
+                    kind: default|weekday|weekend|season|special,
                     price, label, from?, to? } */
     var prices       = { weekendDays: [6, 0], rules: [] };
     var loadedAt     = 0;       /* when we last heard from the sheet (0 = never) */
@@ -3760,19 +3769,26 @@ button {
       return T.currency + Math.round(n);
     }
 
-    /* Sum of every day in the picked range (inclusive, same as the days the
-       booking blocks). Null if any day has no price — then we show nothing
-       rather than a misleading partial total. */
+    /* Homestay and the Event Hall + Homestay package are charged per NIGHT:
+       9 → 10 Nov = 1 night, priced at 9 Nov (the night you sleep there); the
+       check-out day is free. Picking a single date counts as 1 night. Event
+       Hall alone is charged per DAY, every day from start to end inclusive.
+       Null if any charged day has no price — then we show nothing rather
+       than a misleading partial total. */
+    var PER_NIGHT_TYPES = { 'Homestay': true, 'Event Hall + Homestay': true };
+
     function rangeTotal() {
       if (!fromIn.value) return null;
       var a = parseIso(fromIn.value), b = parseIso(toIn.value || fromIn.value);
       var type = currentType(), sum = 0, n = 0;
-      for (var d = new Date(a); d <= b; d = new Date(d.getTime() + MS_DAY)) {
+      var nightly = !!PER_NIGHT_TYPES[type];
+      var last = (nightly && b > a) ? new Date(b.getTime() - MS_DAY) : b;
+      for (var d = new Date(a); d <= last; d = new Date(d.getTime() + MS_DAY)) {
         var p = priceFor(d, type);
         if (!p) return null;
         sum += p.price; n++;
       }
-      return { sum: sum, days: n };
+      return { sum: sum, count: n, nightly: nightly };
     }
 
     function updateTotal() {
@@ -3780,8 +3796,10 @@ button {
       var t = rangeTotal();
       calTotal.hidden = !t;
       if (!t) return;
+      var unit = t.nightly ? (t.count === 1 ? T.night : T.nights)
+                           : (t.count === 1 ? T.day : T.days);
       $('#bkCalTotalAmt').textContent  = money(t.sum);
-      $('#bkCalTotalDays').textContent = '(' + t.days + ' ' + (t.days === 1 ? T.day : T.days) + ')';
+      $('#bkCalTotalDays').textContent = '(' + t.count + ' ' + unit + ')';
     }
 
     function loadBooked() {

@@ -271,6 +271,7 @@ return [
         'type'         => 'Booking type',
         'event_hall'   => 'Event Hall',
         'homestay'     => 'Homestay',
+        'package'      => 'Hall + Homestay Package',
         'choose_dates' => 'Choose your dates',
         'legend_open'  => 'Available',
         'legend_booked' => 'Booked',
@@ -278,7 +279,7 @@ return [
         'legend_low'   => 'Lowest price',
         'legend_special' => 'Special / holiday price',
         'estimate'     => 'Estimated price',
-        'estimate_note' => 'Price per day is shown on the calendar. Final price is confirmed on WhatsApp.',
+        'estimate_note' => 'Homestay and the Package are priced per night (check-out day is free), Event Hall per day. Final price is confirmed on WhatsApp.',
         'from'         => 'From date',
         'to'           => 'To date',
         'date_ph'      => 'Pick on calendar',
@@ -305,6 +306,8 @@ return [
             'currency'     => 'RM',
             'day'          => 'day',
             'days'         => 'days',
+            'night'        => 'night',
+            'nights'       => 'nights',
         ],
 
         /* Pre-filled WhatsApp messages. :name / :type / :date are replaced. */

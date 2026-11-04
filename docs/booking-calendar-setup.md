@@ -125,7 +125,12 @@ It creates a tab called `Harga` with example rows and dropdowns:
 **Rule of thumb: no dates = default price all year. With dates = a season
 that replaces the default for those days only.**
 
-- **Jenis**: `Homestay`, `Event Hall`, or `Semua` (= both).
+- **Jenis**: `Homestay`, `Event Hall`, `Event Hall + Homestay` (the package),
+  or `Semua` (= all three). Give the package its own rows — it does **not** add
+  the Homestay and Event Hall prices together.
+- **How the total is counted:** Homestay and the package are **per night**
+  (9 → 10 Nov = 1 night, priced at 9 Nov; check-out day free). Event Hall
+  alone is **per day** (9 → 10 Nov = 2 days).
 - **Kategori**:
   - `default` — one price for every day (no dates).
   - `weekday` / `weekend` — normal price on weekdays / weekends. Add **Dari** and
