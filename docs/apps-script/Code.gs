@@ -39,6 +39,13 @@ var CALLMEBOT_APIKEY = '';
 // Which tab holds the data. '' = the first tab.
 var SHEET_NAME = '';
 
+// Which tab holds the prices. Run setupPriceSheet once to create it.
+var PRICE_SHEET_NAME = 'Harga';
+
+// Which days count as "weekend" pricing. 0 = Sunday, 1 = Monday ... 6 = Saturday.
+// Default: Saturday + Sunday. Many homestays use Friday + Saturday — then [5, 6].
+var WEEKEND_DAYS = [6, 0];
+
 
 /* ---------------------------------------------------------------------
    Header aliases — Malay and English are both accepted, so the sheet
@@ -50,8 +57,32 @@ var COLS = {
   type:      ['type', 'jenis'],
   from:      ['from', 'dari', 'tarikh dari'],
   to:        ['to', 'hingga', 'sehingga', 'tarikh hingga'],
-  status:    ['status', 'kelulusan']
+  status:    ['status', 'kelulusan'],
+  estimate:  ['estimate', 'anggaran', 'anggaran harga']   /* optional column */
 };
+
+/* Headers of the "Harga" (price) tab. */
+var PRICE_COLS = {
+  type:  ['jenis', 'type'],
+  kind:  ['kategori', 'category', 'kind'],
+  from:  ['dari', 'from', 'tarikh dari'],
+  to:    ['hingga', 'to', 'sehingga', 'tarikh hingga'],
+  price: ['harga', 'price', 'harga (rm)'],
+  label: ['label', 'nota', 'catatan', 'note']
+};
+
+/* What the owner may type in "Kategori" -> what the website understands. */
+var PRICE_KINDS = {
+  'default': 'default', 'harga asas': 'default', 'asas': 'default',
+  'season': 'season',   'musim': 'season', 'musim cuti': 'season',
+  'weekday': 'weekday', 'hari biasa': 'weekday',
+  'weekend': 'weekend', 'hujung minggu': 'weekend',
+  'special': 'special', 'cuti khas': 'special', 'cuti umum': 'special',
+  'perayaan': 'special', 'holiday': 'special'
+};
+
+/* "Jenis" values in the price tab. "Semua" / blank = applies to both. */
+var PRICE_TYPES = ['Homestay', 'Event Hall', 'Semua'];
 
 /* The only values the Status column accepts. Only "confirmed" blocks a date. */
 var STATUS_VALUES = ['pending', 'confirmed', 'cancelled'];
@@ -67,14 +98,15 @@ function getSheet_() {
 }
 
 /* Maps each field to its column number, or -1 when that column is absent. */
-function colIndex_(sheet) {
+function colIndex_(sheet, cols) {
+  cols = cols || COLS;
   var head = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
     .map(function (h) { return String(h).trim().toLowerCase(); });
 
   var idx = {};
-  Object.keys(COLS).forEach(function (key) {
+  Object.keys(cols).forEach(function (key) {
     idx[key] = -1;
-    COLS[key].forEach(function (alias) {
+    cols[key].forEach(function (alias) {
       if (idx[key] === -1) idx[key] = head.indexOf(alias);
     });
   });
@@ -108,6 +140,7 @@ function doPost(e) {
     var type = String(p.type || '').trim();
     var from = String(p.from || '').trim();
     var to   = String(p.to   || '').trim() || from;
+    var est  = String(p.estimate || '').trim();
 
     if (!name || !from) {
       return json_({ ok: false, error: 'missing name or date' });
@@ -123,10 +156,11 @@ function doPost(e) {
     if (idx.from      > -1) row[idx.from]      = from;
     if (idx.to        > -1) row[idx.to]        = to;
     if (idx.status    > -1) row[idx.status]    = 'pending';
+    if (idx.estimate  > -1) row[idx.estimate]  = est;
 
     sheet.appendRow(row);
 
-    notifyAdmin_(name, type, from, to);
+    notifyAdmin_(name, type, from, to, est);
 
     return json_({ ok: true });
   } catch (err) {
@@ -140,14 +174,15 @@ function doPost(e) {
 /* ---------------------------------------------------------------------
    notifyAdmin_ — WhatsApp alert so the owner knows to approve
    --------------------------------------------------------------------- */
-function notifyAdmin_(name, type, from, to) {
+function notifyAdmin_(name, type, from, to, estimate) {
   if (!ADMIN_PHONE || !CALLMEBOT_APIKEY) return;
 
   var msg =
     'TEMPAHAN BARU (REQUEST) - Teratak Moro Seneng\n\n' +
     'Nama: '   + (name || '-') + '\n' +
     'Jenis: '  + (type || '-') + '\n' +
-    'Tarikh: ' + (from || '-') + ' hingga ' + (to || '-') + '\n\n' +
+    'Tarikh: ' + (from || '-') + ' hingga ' + (to || '-') + '\n' +
+    (estimate ? 'Anggaran: ' + estimate + '\n' : '') + '\n' +
     'Status: PENDING.\n' +
     'Buka Google Sheet, tukar "Status" baris ini kepada "confirmed" ' +
     'untuk blok tarikh ini di website.';
@@ -253,17 +288,131 @@ function setupSheet() {
 
 
 /* ---------------------------------------------------------------------
+   setupPriceSheet — pick this in the function dropdown and press Run, ONCE.
+   Creates the "Harga" tab with headers, example prices and dropdowns.
+   If the tab already exists it only refreshes the dropdowns — your
+   prices are never overwritten.
+   --------------------------------------------------------------------- */
+function setupPriceSheet() {
+  var ss    = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(PRICE_SHEET_NAME);
+
+  if (!sheet) {
+    sheet = ss.insertSheet(PRICE_SHEET_NAME);
+    sheet.getRange(1, 1, 1, 6)
+      .setValues([['Jenis', 'Kategori', 'Dari', 'Hingga', 'Harga', 'Label']])
+      .setFontWeight('bold');
+    /* Example rows — change the numbers to your real prices.
+       No dates = the normal (default) price, used all year.
+       With dates = a season that replaces the default for those days. */
+    sheet.getRange(2, 1, 8, 6).setValues([
+      ['Homestay',   'weekday', '',           '',           250,  ''],
+      ['Homestay',   'weekend', '',           '',           350,  ''],
+      ['Event Hall', 'default', '',           '',           1500, ''],
+      ['Event Hall', 'weekend', '',           '',           2000, ''],
+      ['Homestay',   'season',  '2026-11-21', '2027-01-03', 320,  'Cuti sekolah'],
+      ['Homestay',   'weekend', '2026-11-21', '2027-01-03', 420,  'Cuti sekolah'],
+      ['Semua',      'special', '2026-12-24', '2026-12-26', 450,  'Krismas'],
+      ['Semua',      'special', '2027-03-20', '2027-03-22', 500,  'Hari Raya']
+    ]);
+    sheet.getRange('C:D').setNumberFormat('@');   /* keep dates as plain text */
+    sheet.setFrozenRows(1);
+    sheet.autoResizeColumns(1, 6);
+  }
+
+  var idx  = colIndex_(sheet, PRICE_COLS);
+  var rows = Math.max(sheet.getMaxRows() - 1, 1);
+
+  if (idx.type > -1) {
+    sheet.getRange(2, idx.type + 1, rows, 1).setDataValidation(
+      SpreadsheetApp.newDataValidation()
+        .requireValueInList(PRICE_TYPES, true).setAllowInvalid(false)
+        .setHelpText('Homestay / Event Hall / Semua (= both)').build());
+  }
+  if (idx.kind > -1) {
+    sheet.getRange(2, idx.kind + 1, rows, 1).setDataValidation(
+      SpreadsheetApp.newDataValidation()
+        .requireValueInList(['default', 'weekday', 'weekend', 'season', 'special'], true)
+        .setAllowInvalid(false)
+        .setHelpText('default = harga asas semua hari, weekday = hari biasa, ' +
+                     'weekend = hujung minggu, season = musim (isi Dari & Hingga), ' +
+                     'special = cuti / perayaan (isi Dari & Hingga). ' +
+                     'Isi Dari & Hingga pada weekday/weekend = harga musim itu sahaja.').build());
+  }
+
+  ss.toast('Price tab "' + PRICE_SHEET_NAME + '" is ready.', 'Moro Seneng', 5);
+}
+
+
+/* ---------------------------------------------------------------------
+   readPrices_ — the "Harga" tab as rules the website applies per day.
+   Priority on the website, highest first:
+     special  >  weekday/weekend WITH dates  >  season  >
+     weekday/weekend without dates  >  default
+   A rule for a specific Jenis beats a "Semua" rule, and when two rows are
+   otherwise equal the LOWER row in the sheet wins (newest overrides).
+   --------------------------------------------------------------------- */
+function readPrices_() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PRICE_SHEET_NAME);
+  var out   = { weekendDays: WEEKEND_DAYS, rules: [] };
+  if (!sheet || sheet.getLastRow() < 2) return out;
+
+  var idx = colIndex_(sheet, PRICE_COLS);
+  if (idx.kind === -1 || idx.price === -1) return out;
+
+  var values = sheet.getDataRange().getValues();
+  values.shift();
+
+  values.forEach(function (r) {
+    var kind  = PRICE_KINDS[String(r[idx.kind]).trim().toLowerCase()];
+    var price = Number(String(r[idx.price]).replace(/[^0-9.]/g, ''));
+    if (!kind || !price) return;
+
+    var type = idx.type > -1 ? String(r[idx.type]).trim() : '';
+    if (/^(semua|all)$/i.test(type)) type = '';
+
+    var rule = { type: type, kind: kind, price: price,
+                 label: idx.label > -1 ? String(r[idx.label]).trim() : '' };
+
+    /* Any row may carry dates. season / special must; for the others the
+       dates turn a default/weekday/weekend price into a seasonal one. */
+    var from = idx.from > -1 ? isoDate_(r[idx.from]) : '';
+    var to   = idx.to   > -1 ? isoDate_(r[idx.to])   : '';
+    if (!from && (kind === 'season' || kind === 'special')) return;
+    if (from) {
+      rule.from = from;
+      rule.to   = to || from;
+    }
+    out.rules.push(rule);
+  });
+
+  return out;
+}
+
+
+/* ---------------------------------------------------------------------
    doGet — the website's calendar asking which dates are taken
    Only "confirmed" rows are returned; "pending" never blocks a date,
    so the form cannot be used to spam the calendar.
+
+   ?prices=1  ->  { booked: [{from,to}...], prices: {weekendDays, rules} }
+   (no param) ->  [{from,to}...]   — the old shape, kept for older pages
    --------------------------------------------------------------------- */
 function doGet(e) {
+  var booked = readBooked_();
+  if (e && e.parameter && e.parameter.prices) {
+    return json_({ booked: booked, prices: readPrices_() });
+  }
+  return json_(booked);
+}
+
+function readBooked_() {
   var sheet  = getSheet_();
   var values = sheet.getDataRange().getValues();
-  if (values.length < 2) return json_([]);
+  if (values.length < 2) return [];
 
   var idx = colIndex_(sheet);
-  if (idx.from === -1 || idx.status === -1) return json_([]);
+  if (idx.from === -1 || idx.status === -1) return [];
 
   values.shift();                       /* drop the header row */
 
@@ -276,5 +425,5 @@ function doGet(e) {
     if (from) out.push({ from: from, to: to || from });
   });
 
-  return json_(out);
+  return out;
 }

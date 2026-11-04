@@ -275,6 +275,10 @@ return [
         'legend_open'  => 'Available',
         'legend_booked' => 'Booked',
         'legend_pick'  => 'Your pick',
+        'legend_low'   => 'Lowest price',
+        'legend_special' => 'Special / holiday price',
+        'estimate'     => 'Estimated price',
+        'estimate_note' => 'Price per day is shown on the calendar. Final price is confirmed on WhatsApp.',
         'from'         => 'From date',
         'to'           => 'To date',
         'date_ph'      => 'Pick on calendar',
@@ -298,11 +302,16 @@ return [
             'pick_first'   => 'Please pick your dates on the calendar first.',
             'dow'          => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             'date_locale'  => 'en-GB',
+            'currency'     => 'RM',
+            'day'          => 'day',
+            'days'         => 'days',
         ],
 
         /* Pre-filled WhatsApp messages. :name / :type / :date are replaced. */
         'wa_intro'   => 'Assalamualaikum Teratak Moro Seneng, I would like to ask about booking.',
         'wa_request' => "Assalamualaikum Teratak Moro Seneng, I would like to REQUEST a booking (pending your confirmation).\nName: :name\nType: :type\nDate: :date",
+        /* Appended to the message when a price is known. :total is replaced. */
+        'wa_estimate' => "\nEstimated price: :total",
     ],
 
 ];

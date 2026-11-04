@@ -276,6 +276,10 @@ return [
         'legend_open'  => 'Kosong',
         'legend_booked' => 'Ditempah',
         'legend_pick'  => 'Pilihan anda',
+        'legend_low'   => 'Harga terendah',
+        'legend_special' => 'Harga khas / cuti',
+        'estimate'     => 'Anggaran harga',
+        'estimate_note' => 'Harga sehari tertera pada kalendar. Harga akhir disahkan melalui WhatsApp.',
         'from'         => 'Tarikh mula',
         'to'           => 'Tarikh tamat',
         'date_ph'      => 'Pilih pada kalendar',
@@ -299,11 +303,16 @@ return [
             'pick_first'   => 'Sila pilih tarikh anda pada kalendar dahulu.',
             'dow'          => ['Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab', 'Ahd'],
             'date_locale'  => 'ms-MY',
+            'currency'     => 'RM',
+            'day'          => 'hari',
+            'days'         => 'hari',
         ],
 
         /* Mesej WhatsApp pra-isi. :name / :type / :date akan digantikan. */
         'wa_intro'   => 'Assalamualaikum Teratak Moro Seneng, saya ingin bertanya tentang tempahan.',
         'wa_request' => "Assalamualaikum Teratak Moro Seneng, saya ingin MEMOHON tempahan (menunggu pengesahan pihak tuan).\nNama: :name\nJenis: :type\nTarikh: :date",
+        /* Ditambah di hujung mesej bila harga diketahui. :total akan digantikan. */
+        'wa_estimate' => "\nAnggaran harga: :total",
     ],
 
 ];

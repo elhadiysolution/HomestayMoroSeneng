@@ -1391,8 +1391,13 @@ button {
 }
 .booking-cal__day {
   aspect-ratio: 1;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 0;
+  line-height: 1.1;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   background: #fff;
@@ -1418,6 +1423,51 @@ button {
   color: #fff;
 }
 .booking-cal__day.is-in-range { background: var(--beige); color: var(--wood-deep); }
+
+/* Price tag under each day number, like a flight fare calendar */
+.booking-cal__price {
+  font-size: .56rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--wood-soft);
+  white-space: nowrap;
+}
+.booking-cal__day.is-low .booking-cal__price     { color: var(--green); }
+.booking-cal__day.is-special { border-color: #E3B98A; }
+.booking-cal__day.is-special .booking-cal__price { color: #B4541A; }
+.booking-cal__day.is-selected .booking-cal__price,
+.booking-cal__day.is-range-start .booking-cal__price,
+.booking-cal__day.is-range-end .booking-cal__price { color: #fff; }
+.booking-cal__day.is-in-range .booking-cal__price  { color: var(--wood-deep); }
+
+.booking-cal__legend i.k-low     { background: var(--green); }
+.booking-cal__legend i.k-special { background: #fff; border: 1px solid #E3B98A; box-shadow: inset 0 -3px 0 #B4541A; }
+
+.booking-cal__total {
+  display: grid;
+  gap: .3rem;
+  padding: .75rem .9rem;
+  border-radius: var(--r-sm);
+  background: var(--beige-pale);
+  border: 1px solid var(--beige);
+}
+.booking-cal__total[hidden] { display: none; }
+.booking-cal__total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+  font-size: .8rem;
+  color: var(--wood-deep);
+}
+.booking-cal__total-row small { color: var(--ink-55); font-size: .72rem; }
+.booking-cal__total-row strong {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--wood-deep);
+}
+.booking-cal__total-note { margin: 0; font-size: .66rem; color: var(--ink-55); }
 .booking-cal__legend {
   display: flex;
   flex-wrap: wrap;
@@ -3044,8 +3094,18 @@ button {
             <span><i class="k-open"></i> Kosong</span>
             <span><i class="k-booked"></i> Ditempah</span>
             <span><i class="k-sel"></i> Pilihan anda</span>
+            <span id="bkLegendLow" hidden><i class="k-low"></i> Harga terendah</span>
+            <span id="bkLegendSpecial" hidden><i class="k-special"></i> Harga khas / cuti</span>
           </div>
           <p class="booking-cal__status" id="bkCalStatus">Memuatkan ketersediaan…</p>
+          
+          <div class="booking-cal__total" id="bkCalTotal" hidden>
+            <div class="booking-cal__total-row">
+              <span>Anggaran harga <small id="bkCalTotalDays"></small></span>
+              <strong id="bkCalTotalAmt">&mdash;</strong>
+            </div>
+            <p class="booking-cal__total-note">Harga sehari tertera pada kalendar. Harga akhir disahkan melalui WhatsApp.</p>
+          </div>
         </div>
       </div>
 
@@ -3143,7 +3203,7 @@ button {
   /* Every string this script writes to the screen, already in the visitor's
      language. Edit the wording in lang/{en,ms}/site.php, not here — the
      object itself is assembled in the @php block at the top of this file. */
-  var T = {"openMenu":"Buka menu","closeMenu":"Tutup menu","bookTitle":"Mohon Tempahan","doneTitle":"Permohonan dihantar","loading":"Memuatkan ketersediaan\u2026","redBooked":"Tarikh merah telah ditempah.","allOpen":"Semua tarikh masih kosong buat masa ini.","loadFailed":"Gagal memuatkan ketersediaan \u2014 kami akan sahkan tarikh anda melalui WhatsApp.","crosses":"Julat itu melintasi tarikh yang telah ditempah \u2014 sila pilih semula.","pickEnd":"Kini pilih tarikh keluar \/ tarikh tamat.","selected":"Dipilih","pickFirst":"Sila pilih tarikh anda pada kalendar dahulu.","dow":["Isn","Sel","Rab","Kha","Jum","Sab","Ahd"],"dateLocale":"ms-MY","waRequest":"Assalamualaikum Teratak Moro Seneng, saya ingin MEMOHON tempahan (menunggu pengesahan pihak tuan).\nNama: :name\nJenis: :type\nTarikh: :date","types":{"Event Hall":"Dewan Majlis","Homestay":"Homestay"}};
+  var T = {"openMenu":"Buka menu","closeMenu":"Tutup menu","bookTitle":"Mohon Tempahan","doneTitle":"Permohonan dihantar","loading":"Memuatkan ketersediaan\u2026","redBooked":"Tarikh merah telah ditempah.","allOpen":"Semua tarikh masih kosong buat masa ini.","loadFailed":"Gagal memuatkan ketersediaan \u2014 kami akan sahkan tarikh anda melalui WhatsApp.","crosses":"Julat itu melintasi tarikh yang telah ditempah \u2014 sila pilih semula.","pickEnd":"Kini pilih tarikh keluar \/ tarikh tamat.","selected":"Dipilih","pickFirst":"Sila pilih tarikh anda pada kalendar dahulu.","dow":["Isn","Sel","Rab","Kha","Jum","Sab","Ahd"],"dateLocale":"ms-MY","waRequest":"Assalamualaikum Teratak Moro Seneng, saya ingin MEMOHON tempahan (menunggu pengesahan pihak tuan).\nNama: :name\nJenis: :type\nTarikh: :date","waEstimate":"\nAnggaran harga: :total","currency":"RM","day":"hari","days":"hari","types":{"Event Hall":"Dewan Majlis","Homestay":"Homestay"}};
 
   var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) {
@@ -3622,9 +3682,14 @@ button {
     var calPrev   = $('#bkCalPrev');
     var calNext   = $('#bkCalNext');
     var calStatus = $('#bkCalStatus');
+    var calTotal  = $('#bkCalTotal');
 
     var MS_DAY       = 86400000;
     var bookedDays   = {};      /* { 'yyyy-mm-dd': true } — one entry per blocked day */
+    /* Prices from the sheet's "Harga" tab: { weekendDays: [6,0], rules: [...] }.
+       Each rule: { type: 'Homestay'|'Event Hall'|'' (=both), kind: weekday|weekend|special,
+                    price, label, from?, to? } */
+    var prices       = { weekendDays: [6, 0], rules: [] };
     var loadedAt     = 0;       /* when we last heard from the sheet (0 = never) */
     var loading      = false;
     var BOOKED_TTL   = 60000;   /* re-check at most once a minute per tab */
@@ -3658,6 +3723,72 @@ button {
       return false;
     }
 
+    function currentType() {
+      var r = form.querySelector('input[name="type"]:checked');
+      return r ? r.value : '';
+    }
+
+    /* The price of one day for one booking type, or null when the sheet has
+       none. Rows without dates are the all-year default; rows with dates are
+       a season that overrides it. Priority, highest first:
+         special > weekday/weekend with dates > season >
+         weekday/weekend without dates > default
+       A rule for this exact type beats a "Semua" (both) rule, and on a tie the
+       lower row in the sheet wins, so a newly added row overrides older ones. */
+    var PRICE_RANK = { special: 10, season: 6, weekday: 4, weekend: 4, 'default': 2 };
+
+    function priceFor(date, type) {
+      var key  = iso(date);
+      var dow  = prices.weekendDays.indexOf(date.getDay()) > -1 ? 'weekend' : 'weekday';
+      var best = null, bestScore = -1;
+
+      prices.rules.forEach(function (rule) {
+        if (rule.type && rule.type !== type) return;
+        if ((rule.kind === 'weekday' || rule.kind === 'weekend') && rule.kind !== dow) return;
+        if (rule.from && (key < rule.from || key > (rule.to || rule.from))) return;
+
+        var s = (PRICE_RANK[rule.kind] || 0)
+              + (rule.from && rule.kind !== 'special' && rule.kind !== 'season' ? 4 : 0)
+              + (rule.type ? 1 : 0);
+        if (s >= bestScore) { best = rule; bestScore = s; }
+      });
+      return best;
+    }
+
+    function money(n) {
+      return T.currency + Number(n).toLocaleString('en-MY', { maximumFractionDigits: 2 });
+    }
+    /* Short form that fits inside a calendar cell: 350, 1.5k, 12k */
+    function moneyShort(n) {
+      if (n >= 10000) return T.currency + Math.round(n / 1000) + 'k';
+      if (n >= 1000)  return T.currency + (Math.round(n / 100) / 10) + 'k';
+      return T.currency + Math.round(n);
+    }
+
+    /* Sum of every day in the picked range (inclusive, same as the days the
+       booking blocks). Null if any day has no price — then we show nothing
+       rather than a misleading partial total. */
+    function rangeTotal() {
+      if (!fromIn.value) return null;
+      var a = parseIso(fromIn.value), b = parseIso(toIn.value || fromIn.value);
+      var type = currentType(), sum = 0, n = 0;
+      for (var d = new Date(a); d <= b; d = new Date(d.getTime() + MS_DAY)) {
+        var p = priceFor(d, type);
+        if (!p) return null;
+        sum += p.price; n++;
+      }
+      return { sum: sum, days: n };
+    }
+
+    function updateTotal() {
+      if (!calTotal) return;
+      var t = rangeTotal();
+      calTotal.hidden = !t;
+      if (!t) return;
+      $('#bkCalTotalAmt').textContent  = money(t.sum);
+      $('#bkCalTotalDays').textContent = '(' + t.days + ' ' + (t.days === 1 ? T.day : T.days) + ')';
+    }
+
     function loadBooked() {
       renderCal();
       if (!SHEET_WEBAPP_URL) { calStatus.textContent = T.redBooked; return; }
@@ -3673,17 +3804,27 @@ button {
       /* Read as text first: when the Web App isn't deployed as a new version,
          or isn't shared with "Anyone", Apps Script answers with an HTML error
          or login page rather than JSON. Parsing it by hand lets us say so. */
-      fetch(SHEET_WEBAPP_URL, { method: 'GET' })
+      /* ?prices=1 asks for { booked, prices }. An Apps Script that hasn't been
+         redeployed yet ignores the param and still sends the old plain array. */
+      fetch(SHEET_WEBAPP_URL + (SHEET_WEBAPP_URL.indexOf('?') > -1 ? '&' : '?') + 'prices=1', { method: 'GET' })
         .then(function (r) { return r.text(); })
         .then(function (text) {
-          var rows;
+          var rows, data;
           try {
-            rows = JSON.parse(text);
+            data = JSON.parse(text);
           } catch (err) {
             throw new Error('Web App did not return JSON. It sent: ' + text.slice(0, 200));
           }
+          rows = Array.isArray(data) ? data : (data && data.booked);
           if (!Array.isArray(rows)) {
             throw new Error('Expected an array of bookings, got: ' + text.slice(0, 200));
+          }
+          if (data && data.prices && Array.isArray(data.prices.rules)) {
+            prices = {
+              weekendDays: Array.isArray(data.prices.weekendDays) ? data.prices.weekendDays : [6, 0],
+              rules: data.prices.rules
+            };
+            window.__moroPrices = prices;   /* debug hook, like __moroBooked */
           }
 
           /* Rebuild from scratch, never merge — otherwise a booking the owner
@@ -3700,6 +3841,7 @@ button {
 
           calStatus.textContent = rows.length ? T.redBooked : T.allOpen;
           renderCal();
+          updateTotal();
         })
         .catch(function (err) {
           console.error('[booking] could not load availability from the Google Sheet.\n' +
@@ -3729,14 +3871,41 @@ button {
         html += '<span class="booking-cal__day is-empty"></span>';
       }
 
+      /* Work out every open day's price first, so the cheapest ones in this
+         month can be marked green — the "lowest fare" hint. */
+      var type = currentType();
+      var dayPrice = {}, low = Infinity, highSeen = false, anySpecial = false;
+      for (var dd = 1; dd <= daysInMonth; dd++) {
+        var dt = new Date(y, m, dd);
+        if (dt < t0 || bookedDays[iso(dt)]) continue;
+        var p = priceFor(dt, type);
+        if (!p) continue;
+        dayPrice[dd] = p;
+        if (p.kind === 'special') anySpecial = true;
+        if (p.price !== low && low !== Infinity) highSeen = true;
+        if (p.price < low) low = p.price;
+      }
+      var legendLow = $('#bkLegendLow'), legendSpecial = $('#bkLegendSpecial');
+      if (legendLow)     legendLow.hidden     = !highSeen;
+      if (legendSpecial) legendSpecial.hidden = !anySpecial;
+
       for (var day = 1; day <= daysInMonth; day++) {
         var date = new Date(y, m, day);
         var key  = iso(date);
         var cls  = 'booking-cal__day';
         var off  = false;
+        var pr   = dayPrice[day];
+        var tag  = '';
+        var tip  = '';
 
         if (date < t0)            { cls += ' is-past';   off = true; }
         else if (bookedDays[key]) { cls += ' is-booked'; off = true; }
+        else if (pr) {
+          tag = '<span class="booking-cal__price">' + moneyShort(pr.price) + '</span>';
+          tip = money(pr.price) + (pr.label ? ' · ' + pr.label : '');
+          if (pr.kind === 'special')              cls += ' is-special';
+          if (highSeen && pr.price === low)       cls += ' is-low';
+        }
 
         if (selStart && selEnd) {
           if (+date === +selStart) cls += ' is-range-start';
@@ -3747,10 +3916,17 @@ button {
         }
 
         html += '<button type="button" class="' + cls + '" data-date="' + key + '"' +
-                (off ? ' disabled' : '') + '>' + day + '</button>';
+                (tip ? ' title="' + escAttr(tip) + '"' : '') +
+                (off ? ' disabled' : '') + '><span>' + day + '</span>' + tag + '</button>';
       }
 
       calGrid.innerHTML = html;
+    }
+
+    /* Labels come from the owner's sheet — escape before putting them in HTML. */
+    function escAttr(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+                      .replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function calReset() {
@@ -3760,6 +3936,7 @@ button {
       fromIn.value = '';
       toIn.value   = '';
       renderCal();
+      updateTotal();
     }
 
     function pickDate(dateStr) {
@@ -3789,6 +3966,7 @@ button {
         calStatus.textContent = T.selected + ' ' + iso(selStart) + '  →  ' + iso(selEnd);
       }
       renderCal();
+      updateTotal();
     }
 
     if (calGrid) {
@@ -3803,6 +3981,10 @@ button {
       calNext.addEventListener('click', function () {
         view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
         renderCal();
+      });
+      /* Homestay and Event Hall have different prices — redraw on switch. */
+      form.addEventListener('change', function (e) {
+        if (e.target && e.target.name === 'type') { renderCal(); updateTotal(); }
       });
     }
 
@@ -3835,7 +4017,10 @@ button {
         return;
       }
 
-      saveToSheet({ name: name, type: type, from: from, to: to, status: 'pending' });
+      var total    = rangeTotal();
+      var estimate = total ? money(total.sum) : '';
+
+      saveToSheet({ name: name, type: type, from: from, to: to, status: 'pending', estimate: estimate });
 
       /* The template and its :placeholders come from the lang files. The row
          saved above keeps the English type; the message shows the label the
@@ -3843,7 +4028,8 @@ button {
       var message = T.waRequest
         .replace(':name', name)
         .replace(':type', T.types[type] || type)
-        .replace(':date', formatTarikh(from) + ' - ' + formatTarikh(to));
+        .replace(':date', formatTarikh(from) + ' - ' + formatTarikh(to)) +
+        (estimate ? T.waEstimate.replace(':total', estimate) : '');
 
       var waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(message);
 
