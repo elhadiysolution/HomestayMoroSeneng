@@ -60,7 +60,7 @@ return [
     'nav' => [
         'brand_sub' => 'Sabak Bernam · Selangor',
         'about'     => 'Tentang Kami',
-        'homestay'  => 'Penginapan',
+        'homestay'  => 'Servis Kami',
         'gallery'   => 'Galeri',
         'events'    => 'Ruang Acara',
         'location'  => 'Lokasi',
@@ -256,6 +256,7 @@ return [
         'blurb'     => 'Sebuah rumah Melayu tradisional di Batu 38, Sabak Bernam — terbuka untuk keluarga, pasangan yang bakal berkahwin dan syarikat yang mencari suasana lebih tenang.',
         'contact'   => 'Hubungi',
         'phone'     => 'Hubungi · +60 13-395 0231',
+        'email'     => 'teratakms@gmail.com',
         'rights'    => 'Teratak Moro Seneng. Hak cipta terpelihara.',
         'address'   => 'Batu 38, Sabak Bernam, Selangor, Malaysia',
         'wa_label'  => 'Hubungi kami',

@@ -2381,7 +2381,7 @@ button {
         <li><a class="nav__link" href="#penginapan">{{ __('site.nav.homestay') }}</a></li>
         <li><a class="nav__link" href="#galeri">{{ __('site.nav.gallery') }}</a></li>
         <li><a class="nav__link" href="#majlis">{{ __('site.nav.events') }}</a></li>
-        <li><a class="nav__link" href="#hubungi">{{ __('site.nav.location') }}</a></li>
+        <li><a class="nav__link" href="#lokasi">{{ __('site.nav.location') }}</a></li>
       </ul>
       <button class="btn btn--gold btn--sm nav__cta" type="button" data-booking-open>{{ __('site.nav.contact') }}</button>
     </nav>
@@ -3020,7 +3020,7 @@ button {
       <h2 class="footer__head">{{ __('site.footer.contact') }}</h2>
       <ul>
         <li><a href="https://wa.me/60133950231" target="_blank" rel="noopener">{{ __('site.footer.phone') }}</a></li>
-        <li><a href="mailto:salam@teratakmoroseneng.com">salam@teratakmoroseneng.com</a></li>
+        <li><a href="mailto:{{ __('site.footer.email') }}">{{ __('site.footer.email') }}</a></li>
       </ul>
     </div>
   </div>
